@@ -1,486 +1,55 @@
 CHESSW.WEB/
 ├─ src/
 │  ├─ config/
-│  │  └─ index.js           # بارگذاری env و config عمومی
+│  │  └─ index.js           
 │  ├─ controllers/
+│  │  ├─ friendsController.js
 │  │  ├─ authController.js
 │  │  ├─ gameController.js
-│  │  └─ userController.js
+│  │  └─ ChatController.js
 │  ├─ models/
-│  │  ├─ Game.js
-│  │  ├─ Move.js
+│  │  ├─ decks.js
+│  │  ├─ Message.js
+│  │  ├─ Games.js
+│  │  ├─ matchmaking.js
 │  │  └─ User.js
 │  ├─ routes/
+│  │  ├─ ChatRoutes.js
+│  │  ├─ friendsRoutes.js
 │  │  ├─ authRoutes.js
 │  │  ├─ gameRoutes.js
 │  │  └─ index.js
 │  ├─ services/
-│  │  ├─ chessService.js    # منطق بازی، بررسی وضعیت صفحه
-│  │  └─ emailService.js
+│  │  └─ deckSelectionService.js
 │  ├─ middlewares/
 │  │  └─ authMiddleware.js
 │  ├─ utils/
-│  │  └─ logger.js
+│  │  └─ email.js
 │  └─ views/
 │     ├─ layouts/
-│     │  └─ main.ejs
+|     |  ├─ chat.ejs
+|     |  ├─ chngpass.ejs
+|     |  ├─ dashboard.ejs
+|     |  ├─ deckSelection.ejs
+|     |  ├─ friends.ejs
+|     |  ├─ home.ejs
+|     |  ├─ login.ejs
+|     |  ├─ newpass.ejs
+|     |  ├─ play.ejs
+|     |  ├─ recovery.ejs
+|     |  ├─ soon.ejs
+|     |  └─waiting.ejs
 │     └─ partials/
-│        ├─ header.ejs
-│        ├─ footer.ejs
-│        └─ play.ejs
+│        └─ messanges.ejs
 ├─ public/
-│  ├─ css/
 │  ├─ js/
+|  |  ├─ chess.js
+|  |  └─chessboard.js 
 │  └─ images/
-├─ tests/
-│  └─ auth.test.js
 ├─ .env
-├─ app.js                   # پیکربندی Express، وسط‌افزارها
-├─ server.js                # راه‌اندازی سرور
+├─ app.js                   
+├─ server.js      
+├─ socket.js         
 ├─ package.json
+├─ .gitignore
 └─ README.md
-
-
-Absolutely, Aliz. Let’s walk through **every item from the list**, one by one, with clear explanations of what each file or folder does and what you should put inside — no code, just clarity. This will give you a full mental map of your project.
-
----
-
-## ✅ 2. `.env` — Environment Variables
-
-### 🧠 What It Does
-Stores sensitive config values like database URIs, email credentials, and secret keys. Keeps them out of your codebase.
-
-### 📋 What You Should Put Inside
-- `PORT=3000` — Port your server runs on  
-- `MONGO_URI=...` — MongoDB connection string  
-- `JWT_SECRET=...` — Secret for signing tokens  
-- `EMAIL_USER=...` / `EMAIL_PASS=...` — For sending emails  
-- Any other API keys or config values
-
----
-
-## ✅ 3. `src/config/index.js` — Centralized Config Loader
-
-### 🧠 What It Does
-Loads `.env` values using `dotenv` and exports them in a structured way for use across your app.
-
-### 📋 What You Should Put Inside
-- Code to load `.env`
-- Exported config object like `{ port, mongoUri, jwtSecret, email }`
-- Optional: default fallbacks if env vars are missing
-
----
-
-## ✅ 4. `app.js` — Express Setup & Middleware
-
-### 🧠 What It Does
-Initializes your Express app, sets up middleware, view engine, static files, and mounts routes.
-
-### 📋 What You Should Put Inside
-- Express instance
-- Middleware: body parser, cookie parser, session, etc.
-- View engine setup (EJS)
-- Static file serving (`public/`)
-- Route mounting (`/auth`, `/game`, etc.)
-
----
-
-## ✅ 5. `server.js` — Server Launcher
-
-### 🧠 What It Does
-Connects to MongoDB and starts the Express server.
-
-### 📋 What You Should Put Inside
-- Import `app.js`
-- Connect to MongoDB using `mongoose`
-- Listen on the configured port
-- Optional: graceful shutdown or error logging
-
----
-
-## ✅ 6. `src/routes/index.js` — Route Aggregator
-
-### 🧠 What It Does
-Combines all route modules into one router and exports it.
-
-### 📋 What You Should Put Inside
-- Import `authRoutes`, `gameRoutes`, etc.
-- Use them under specific paths (`/auth`, `/game`)
-- Export the combined router
-
----
-
-## ✅ 7. `src/routes/authRoutes.js` — Auth Endpoints
-
-### 🧠 What It Does
-Defines routes for login, signup, password recovery, etc.
-
-### 📋 What You Should Put Inside
-- `POST /login`, `POST /signup`
-- `GET /recover`, `POST /recover`
-- `POST /reset-password`
-- Middleware for validation or rate limiting
-
----
-
-## ✅ 8. `src/controllers/authController.js` — Auth Logic
-
-### 🧠 What It Does
-Handles the logic behind each auth route — user creation, login, password reset.
-
-### 📋 What You Should Put Inside
-- Functions like `registerUser`, `loginUser`, `sendRecoveryEmail`, `resetPassword`
-- Use `User.js` model and `emailService.js`
-- Handle errors and responses
-
----
-
-## ✅ 9. `src/models/User.js` — User Schema
-
-### 🧠 What It Does
-Defines the MongoDB schema for users.
-
-### 📋 What You Should Put Inside
-- Fields: username, email, password, createdAt
-- Methods: password hashing, token generation
-- Validation rules
-
----
-
-## ✅ 10. `src/services/emailService.js` — Email Sender
-
-### 🧠 What It Does
-Sends emails for password recovery, confirmation, etc.
-
-### 📋 What You Should Put Inside
-- Setup for nodemailer or similar
-- Functions like `sendRecoveryEmail(to, token)`
-- Use `.env` for credentials
-
----
-
-## ✅ 11. `src/middlewares/authMiddleware.js` — Route Protection
-
-### 🧠 What It Does
-Checks if a user is authenticated before allowing access to protected routes.
-
-### 📋 What You Should Put Inside
-- Middleware function that checks JWT or session
-- Redirects or blocks unauthorized access
-- Optional: role-based access control
-
----
-
-## ✅ 12–15. `src/views/partials/*.ejs` — Auth Templates
-
-### 🧠 What They Do
-Render the frontend forms for login, recovery, reset, and change password.
-
-### 📋 What You Should Put Inside
-- `login.ejs`: Form for email/password login  
-- `recovery.ejs`: Form to request password reset  
-- `newpass.ejs`: Form to set new password via token  
-- `chngpass.ejs`: Form to change password while logged in  
-
----
-
-## ✅ 16. `src/views/layouts/main.ejs` — Base Layout
-
-### 🧠 What It Does
-Wraps all pages with a consistent layout (header, footer, etc.)
-
-### 📋 What You Should Put Inside
-- HTML boilerplate
-- `<%- body %>` placeholder for content
-- Includes for header/footer
-
----
-
-## ✅ 17–18. `header.ejs` & `footer.ejs` — Shared UI
-
-### 🧠 What They Do
-Reusable components for navigation and footer.
-
-### 📋 What You Should Put Inside
-- `header.ejs`: Logo, nav links, user info  
-- `footer.ejs`: Copyright, links  
-
----
-
-## ✅ 19–21. `public/` — Static Assets
-
-### 🧠 What They Do
-Hold client-side files served directly by Express.
-
-### 📋 What You Should Put Inside
-- `css/`: Stylesheets (Bootstrap, custom styles)
-- `js/`: Client-side JS (e.g. socket.io client, UI logic)
-- `images/`: Logos, icons, board graphics
-
----
-
-## ✅ 22. `src/utils/logger.js` — Logging Utility
-
-### 🧠 What It Does
-Provides consistent logging for errors, events, or debugging.
-
-### 📋 What You Should Put Inside
-- Functions like `logInfo`, `logError`
-- Optional: write to file or external service
-
----
-
-## ✅ 23. `src/models/Game.js` — Game Schema
-
-### 🧠 What It Does
-Defines the structure of a chess game in the database.
-
-### 📋 What You Should Put Inside
-- Fields: players, moves, status, winner
-- Timestamps and references to `User`
-
----
-
-## ✅ 24. `src/models/Move.js` — Move Schema
-
-### 🧠 What It Does
-Stores individual moves within a game.
-
-### 📋 What You Should Put Inside
-- Fields: gameId, player, from, to, piece, timestamp
-- Optional: notation, captured piece
-
----
-
-## ✅ 25. `src/controllers/gameController.js` — Game Logic
-
-### 🧠 What It Does
-Handles game-related actions like starting a game, making a move, ending a game.
-
-### 📋 What You Should Put Inside
-- Functions like `startGame`, `makeMove`, `endGame`
-- Use `Game.js`, `Move.js`, and `chessService.js`
-
----
-
-## ✅ 26. `src/routes/gameRoutes.js` — Game Endpoints
-
-### 🧠 What It Does
-Defines routes for game actions.
-
-### 📋 What You Should Put Inside
-- `POST /start`, `POST /move`, `POST /end`
-- Use `authMiddleware` to protect routes
-
----
-
-## ✅ 27. `src/services/chessService.js` — Chess Engine
-
-### 🧠 What It Does
-Implements chess logic: board state, move validation, check/checkmate detection.
-
-### 📋 What You Should Put Inside
-- Board representation
-- Functions like `isValidMove`, `isCheckmate`, `getLegalMoves`
-- Optional: FEN parsing, PGN generation
-
----
-
-## ✅ 28. `src/controllers/userController.js` — User Profile Logic
-
-### 🧠 What It Does
-Handles user-related actions like viewing profile, updating settings, managing friends.
-
-### 📋 What You Should Put Inside
-- Functions like `getProfile`, `updateSettings`, `addFriend`
-
----
-
-## ✅ 29. `tests/auth.test.js` — Auth Tests
-
-### 🧠 What It Does
-Tests your authentication logic using a testing framework (e.g. Jest, Mocha).
-
-### 📋 What You Should Put Inside
-- Unit tests for `authController`
-- Mocking database and email service
-- Edge cases: invalid login, expired token, etc.
-
----
-
-## ✅ 30. `README.md` — Project Guide
-
-### 🧠 What It Does
-Explains what your project is, how to set it up, and how to contribute.
-
-### 📋 What You Should Put Inside
-- Project description
-- Setup instructions
-- Tech stack
-- How to run, test, and deploy
-- Optional: screenshots or diagrams
-
----
-
-Let me know which part you want to build or refine next — I can help you scaffold it, write the logic, or even sketch out the flow.
-////////////////////////////////////////////////////////////////////
-Day 1 (today)
-
-Setup MongoDB schema for Friends:
-
-{
-  userId: ObjectId,
-  friends: [ObjectId]
-}
-
-
-Write backend endpoints:
-
-POST /addFriend/:id
-
-DELETE /removeFriend/:id
-
-GET /friends
-
-Day 2
-
-Connect frontend buttons → backend API.
-
-Test adding/removing friends actually updates DB.
-
-Day 3
-
-Setup Socket.IO server in your Express app.
-
-Test with simple “user connected” event in console.
-
-Day 4
-
-Implement private chat between 2 connected users.
-
-Just echo messages → no DB yet.
-
-Day 5
-
-Save chat history in MongoDB:
-
-{
-  senderId: ObjectId,
-  receiverId: ObjectId,
-  message: String,
-  timestamp: Date
-}
-
-
-Write GET /chat/:friendId to fetch history.
-
-Day 6
-
-Connect frontend → load previous chat messages when user opens chat.
-
-You should now have friends + working chat.
-//////////////////////////////////////////
-Got it 🔥 — you want to finish the **entire game part in 7 days** with:
-
-* **Socket.IO** for real-time gameplay
-* **chess.js** for rules & validation
-* **chessboard.js** for UI
-* **Custom deck selection system** before starting the game
-
-Here’s a **day-by-day battle plan** that’s realistic but intense:
-
----
-
-## **Day 1 → Game Schema + Socket Setup**
-
-* Create `Game` model (we already sketched it).
-* Add `deck` field for each player in schema:
-
-  ```js
-  playerWhiteDeck: String,
-  playerBlackDeck: String
-  ```
-* Set up Socket.IO game rooms (`joinGame`, `makeMove`).
-* Make sure game state is saved to DB and synced with all clients.
-  ✅ Goal: Two browsers can join the same room and share the board state (moves update live).
-
----
-
-## **Day 2 → Chessboard.js Frontend Integration**
-
-* Render a chessboard using **chessboard.js**.
-* Connect board events to Socket.IO (`onDrop → sendMove`).
-* Update board when opponent moves (`socket.on('moveMade')`).
-* Test moves are synced properly.
-  ✅ Goal: Two players can play a normal chess match online with real-time updates.
-
----
-
-## **Day 3 → Deck Selection System (Backend)**
-
-* Add **DeckPool** (static JSON or DB) with chess set themes.
-  Example: `{ id: "medieval", name: "Medieval Set", pieces: { ... } }`
-* Endpoint `/game/deckSelection/:gameId` → randomly assign 3 deck options per player.
-* Save chosen deck in `Game.playerWhiteDeck` / `Game.playerBlackDeck`.
-  ✅ Goal: API provides 3 random deck options per user before the game starts.
-
----
-
-## **Day 4 → Deck Selection System (Frontend)**
-
-* Build a **deck selection page** before the board loads.
-* Each player sees 3 deck options → clicks one → send choice to server via Socket.IO (`chooseDeck`).
-* When both players pick, start the game.
-  ✅ Goal: Players must select a deck before they see the chessboard.
-
----
-
-## **Day 5 → Game Flow & UI Polish**
-
-* Add **game lobby screen**:
-
-  * Shows both players, their chosen decks, and “Game starting…”
-* Auto-redirect to game board once both are ready.
-* Show player names + deck theme on the board page.
-  ✅ Goal: Smooth flow → Lobby → Deck Select → Board.
-
----
-
-## **Day 6 → Win/End Conditions + Persistence**
-
-* Use `chess.js` to detect:
-
-  * Checkmate → set `winner` in DB
-  * Stalemate / Draw
-* Broadcast **Game Over** via Socket.IO (`gameOver`).
-* Save full move history in DB for match history.
-  ✅ Goal: Games finish cleanly with results stored.
-
----
-
-## **Day 7 → Testing + UX Improvements**
-
-* Test: multiple games at once (room isolation).
-* Add visual indicators:
-
-  * Turn highlight
-  * Captured pieces display
-* Add fallback: if one player disconnects, other wins by default after X minutes.
-  ✅ Goal: Playable, stable, fun chess with deck selection.
-
----
-
-### 📌 By the end of 7 days:
-
-* Full **multiplayer chess engine**
-* Custom **deck system**
-* Clean **game flow (Lobby → Decks → Match → Result)**
-* All games saved in DB for history
-
----
-
-🔥 No excuses: this is doable in a week if you stay locked in.
-
----
-
-Do you want me to **sketch the Deck schema + Socket.IO events for deck selection** (so Day 3 is ready to code without thinking)?

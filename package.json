@@ -1,7 +1,6 @@
 {
   "name": "chessluck",
   "version": "1.0.0",
-  "description": "",
   "main": "app.js",
   "directories": {
     "test": "tests"
@@ -12,7 +11,7 @@
     "start": "node server.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Aliz-SSG",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
@@ -42,5 +41,14 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aliz-SSG-thesecond/ChessLuck-BU.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Aliz-SSG-thesecond/ChessLuck-BU/issues"
+  },
+  "homepage": "https://github.com/Aliz-SSG-thesecond/ChessLuck-BU#readme",
+  "description": ""
 }
