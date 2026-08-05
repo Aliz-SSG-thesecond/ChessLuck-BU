@@ -1,0 +1,190 @@
+[{
+  "_id": {
+    "$oid": "68e2a9829299158f435411e7"
+  },
+  "name": "Classic",
+  "pieces": [
+    "R",
+    "N",
+    "B",
+    "Q",
+    "K",
+    "B",
+    "N",
+    "R"
+  ],
+  "description": "The traditional chess setup — balanced and well-known to all players.",
+  "fenRank": "rnbqkbnr",
+  "image": "/images/classic.png"
+},
+{
+  "_id": {
+    "$oid": "68e2a9829299158f435411e8"
+  },
+  "name": "Double Queen",
+  "pieces": [
+    "R",
+    "N",
+    "Q",
+    "K",
+    "Q",
+    "B",
+    "N",
+    "R"
+  ],
+  "description": "Two queens for maximum offensive potential. Sacrifice defense for chaos.",
+  "fenRank": "rnqkqbnr",
+  "image": "/images/doublequeen.png"
+},
+{
+  "_id": {
+    "$oid": "68e2a9829299158f435411e9"
+  },
+  "name": "Fortress",
+  "pieces": [
+    "R",
+    "R",
+    "B",
+    "K",
+    "Q",
+    "B",
+    "R",
+    "R"
+  ],
+  "description": "A heavy defensive formation built like an impenetrable wall.",
+  "fenRank": "rrbkqbrr",
+  "image": "/images/fortress.png"
+},
+{
+  "_id": {
+    "$oid": "68e2a9829299158f435411ea"
+  },
+  "name": "Knights Army",
+  "pieces": [
+    "N",
+    "N",
+    "N",
+    "Q",
+    "K",
+    "N",
+    "N",
+    "N"
+  ],
+  "description": "A swarm of knights ready to control every corner of the board.",
+  "fenRank": "nnnqknnn",
+  "image": "/images/knights.png"
+},
+{
+  "_id": {
+    "$oid": "68e2a9829299158f435411eb"
+  },
+  "name": "Bishop’s Blessing",
+  "pieces": [
+    "B",
+    "B",
+    "B",
+    "Q",
+    "K",
+    "B",
+    "B",
+    "B"
+  ],
+  "description": "A holy arrangement with long-range power from every direction.",
+  "fenRank": "bbbqkbbb",
+  "image": "/images/bishops.png"
+},
+{
+  "_id": {
+    "$oid": "68e2a9829299158f435411ec"
+  },
+  "name": "Royal Wall",
+  "pieces": [
+    "Q",
+    "R",
+    "N",
+    "K",
+    "N",
+    "R",
+    "Q",
+    "B"
+  ],
+  "description": "A hybrid of offensive and defensive lines guarding the king.",
+  "fenRank": "qrnknrqb",
+  "image": "/images/wall.png"
+},
+{
+  "_id": {
+    "$oid": "68e2a9829299158f435411ed"
+  },
+  "name": "Symmetry",
+  "pieces": [
+    "B",
+    "N",
+    "R",
+    "K",
+    "Q",
+    "R",
+    "N",
+    "B"
+  ],
+  "description": "Perfectly symmetrical balance between power and order.",
+  "fenRank": "bnrkqrnb",
+  "image": "/images/symmetry.png"
+},
+{
+  "_id": {
+    "$oid": "68e2a9829299158f435411ee"
+  },
+  "name": "Chaos",
+  "pieces": [
+    "N",
+    "B",
+    "R",
+    "Q",
+    "K",
+    "R",
+    "B",
+    "N"
+  ],
+  "description": "Random arrangement designed for unpredictability and surprise tactics.",
+  "fenRank": "nbrqkrbn",
+  "image": "/images/chaos.png"
+},
+{
+  "_id": {
+    "$oid": "68e2a9829299158f435411ef"
+  },
+  "name": "Aggressor",
+  "pieces": [
+    "Q",
+    "N",
+    "N",
+    "R",
+    "K",
+    "R",
+    "N",
+    "Q"
+  ],
+  "description": "An aggressive front loaded with queens and rooks for constant pressure.",
+  "fenRank": "qnnrkrnq",
+  "image": "/images/aggressor.png"
+},
+{
+  "_id": {
+    "$oid": "68e2a9829299158f435411f0"
+  },
+  "name": "Hybrid",
+  "pieces": [
+    "R",
+    "B",
+    "N",
+    "K",
+    "Q",
+    "N",
+    "B",
+    "R"
+  ],
+  "description": "A mix of classic and modern design offering flexibility and surprise.",
+  "fenRank": "rbnkqnbr",
+  "image": "/images/hybrid.png"
+}]

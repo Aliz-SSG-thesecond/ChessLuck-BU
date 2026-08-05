@@ -5,22 +5,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chess Deck Selection</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;0,9..144,700;1,9..144,450&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@500;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --parchment: #F2E8D0;
+            --parchment-deep: #E7D8B0;
+            --parchment-line: #C9B786;
+            --walnut: #3B2A1E;
+            --walnut-soft: #6E5643;
+            --ink: #211508;
+            --brass: #A9812C;
+            --brass-bright: #C9A227;
+            --forest: #445640;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: 'Spectral', Georgia, serif;
         }
 
+        .font-display { font-family: 'Fraunces', serif; }
+        .font-utility { font-family: 'Inter', sans-serif; }
+
         body {
-            background: linear-gradient(135deg, #111827 0%, #1F2937  100%);
+            background-color: var(--parchment);
+            background-image: radial-gradient(circle at 1px 1px, rgba(59,42,30,0.07) 1px, transparent 0);
+            background-size: 22px 22px;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 2rem;
+            color: var(--ink);
         }
 
         .header {
@@ -28,19 +49,28 @@
             margin-bottom: 3rem;
         }
 
+        .header .eyebrow {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.72rem;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+            color: var(--brass);
+            margin-bottom: 0.6rem;
+        }
+
         .header h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #60A5FA
-            ;
-            letter-spacing: -0.5px;
+            font-family: 'Fraunces', serif;
+            font-size: 2.35rem;
+            font-weight: 600;
+            color: var(--walnut);
+            letter-spacing: -0.01em;
             margin-bottom: 0.5rem;
         }
 
         .subtitle {
-            font-size: 1.1rem;
-            color: #60A5FA
-            ;
+            font-family: 'Spectral', serif;
+            font-size: 1.05rem;
+            color: var(--walnut-soft);
             font-weight: 400;
         }
 
@@ -53,14 +83,14 @@
         }
 
         .deck-card {
-            background: white;
-            border-radius: 1.5rem;
+            background: var(--parchment-deep);
+            border-radius: 4px;
             padding: 2rem;
             width: 280px;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 2px solid transparent;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--parchment-line);
+            box-shadow: 0 4px 20px rgba(33, 21, 8, 0.08);
             position: relative;
             display: flex;
             flex-direction: column;
@@ -69,12 +99,12 @@
 
         .deck-card:hover {
             transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 12px 30px rgba(33, 21, 8, 0.15);
         }
 
         .deck-card.selected {
-            border-color: #3b82f6;
-            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.25);
+            border-color: var(--brass);
+            box-shadow: 0 8px 25px rgba(169, 129, 44, 0.25);
             transform: translateY(-8px) scale(1.02);
         }
 
@@ -85,9 +115,9 @@
             right: -8px;
             width: 24px;
             height: 24px;
-            background: #3b82f6;
+            background: var(--brass);
             border-radius: 50%;
-            border: 3px solid white;
+            border: 3px solid var(--parchment);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -98,9 +128,10 @@
             position: absolute;
             top: -4px;
             right: 2px;
-            color: white;
+            color: var(--parchment);
             font-size: 14px;
             font-weight: bold;
+            font-family: 'Inter', sans-serif;
         }
 
         .deck-preview {
@@ -118,9 +149,8 @@
             align-items: center;
             justify-content: center;
             font-size: 1.5rem;
-            background: #60A5FA
-            ;
-            border-radius: 10px;
+            background: var(--brass);
+            border-radius: 4px;
             transition: transform 0.2s ease;
         }
 
@@ -133,41 +163,48 @@
         }
 
         .deck-name {
-            font-size: 1.4rem;
+            font-family: 'Fraunces', serif;
+            font-size: 1.3rem;
             font-weight: 600;
-            color: #1e293b;
+            color: var(--walnut);
             margin-bottom: 0.5rem;
         }
 
         .deck-description {
+            font-family: 'Spectral', serif;
             font-size: 0.95rem;
-            color: #64748b;
+            color: var(--walnut-soft);
             line-height: 1.4;
         }
 
         .confirm-button {
-            background: #60A5FA
-            ;
-            color: white;
-            border: none;
-            border-radius: 1.5rem;
-            padding: 1.25rem 3rem;
-            font-size: 1.25rem;
+            background: var(--walnut);
+            color: var(--parchment);
+            border: 1px solid var(--walnut);
+            border-radius: 2px;
+            padding: 1rem 2.75rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
             font-weight: 600;
+            letter-spacing: 0.02em;
             cursor: not-allowed;
+            opacity: 0.45;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(33, 21, 8, 0.1);
         }
 
         .confirm-button.enabled {
-            background: #60A5FA;
+            background: var(--walnut);
+            opacity: 1;
             cursor: pointer;
-            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+            box-shadow: 0 8px 25px rgba(169, 129, 44, 0.3);
         }
 
         .confirm-button.enabled:hover {
+            background: var(--brass);
+            border-color: var(--brass);
             transform: translateY(-2px);
-            box-shadow: 0 12px 30px rgba(59, 130, 246, 0.4);
+            box-shadow: 0 12px 30px rgba(169, 129, 44, 0.35);
         }
 
         .confirm-button.enabled:active {
@@ -176,7 +213,9 @@
 
         .status-text {
             margin-top: 1.5rem;
-            color: #ffffff;
+            color: var(--walnut-soft);
+            font-family: 'Fraunces', serif;
+            font-style: italic;
             font-size: 1rem;
             text-align: center;
         }
@@ -195,6 +234,7 @@
 </head>
 <body>
     <div class="header">
+        <div class="eyebrow">Before You Play</div>
         <h1>Select Your Deck</h1>
         <p class="subtitle">Choose a chess piece set for your game</p>
     </div>

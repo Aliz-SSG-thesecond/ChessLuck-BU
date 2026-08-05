@@ -6,92 +6,208 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Friends List</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;0,9..144,700;1,9..144,450&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --parchment: #F2E8D0;
+            --parchment-deep: #E7D8B0;
+            --parchment-line: #C9B786;
+            --walnut: #3B2A1E;
+            --walnut-soft: #6E5643;
+            --ink: #211508;
+            --brass: #A9812C;
+            --brass-bright: #C9A227;
+            --forest: #445640;
+            --brick: #9C4A36;
+        }
+
+        body {
+            background-color: var(--parchment);
+            background-image: radial-gradient(circle at 1px 1px, rgba(59,42,30,0.07) 1px, transparent 0);
+            background-size: 22px 22px;
+            font-family: 'Spectral', Georgia, serif;
+            color: var(--ink);
+        }
+
+        .font-display { font-family: 'Fraunces', serif; }
+        .font-utility { font-family: 'Inter', sans-serif; }
+
+        /* ---- Nav ---- */
+        nav.site-nav { background-color: var(--parchment-deep); border-bottom: 1px solid var(--parchment-line); }
+        .brand-mark svg { width: 28px; height: 28px; }
+        .brand-name { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.15rem; letter-spacing: 0.01em; color: var(--walnut); }
+        .nav-link, .nav-form button {
+            font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.02em;
+            color: var(--walnut-soft); border-bottom: 1px solid transparent; padding-bottom: 2px;
+            background: none; border-top: none; border-left: none; border-right: none; cursor: pointer;
+            transition: color 0.15s ease, border-color 0.15s ease;
+        }
+        .nav-link:hover, .nav-form button:hover { color: var(--walnut); border-color: var(--brass); }
+
+        /* ---- Header ---- */
+        .page-eyebrow { font-family: 'Inter', sans-serif; font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--brass); margin-bottom: 0.4rem; }
+        .page-title { font-family: 'Fraunces', serif; font-weight: 600; font-size: 2.1rem; color: var(--walnut); letter-spacing: -0.01em; }
+        .page-sub { font-family: 'Spectral', serif; color: var(--walnut-soft); font-size: 0.98rem; margin-top: 0.25rem; }
+
+        /* ---- Search ---- */
+        .search-wrap { position: relative; }
+        .search-input {
+            background: var(--parchment); border: 1px solid var(--parchment-line); border-radius: 2px;
+            padding: 0.65rem 1rem 0.65rem 2.4rem; width: 17rem; font-family: 'Spectral', serif; font-size: 0.94rem; color: var(--ink);
+        }
+        .search-input::placeholder { color: rgba(110,86,67,0.55); }
+        .search-input:focus { outline: none; border-color: var(--brass); box-shadow: 0 0 0 3px rgba(169,129,44,0.2); }
+        .search-icon {
+            position: absolute; left: 0.85rem; top: 50%; transform: translateY(-50%);
+            width: 15px; height: 15px; background-color: var(--walnut-soft);
+            -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center;
+            -webkit-mask-size: contain; mask-size: contain;
+            -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><circle cx='8.5' cy='8.5' r='6.5' fill='none' stroke='black' stroke-width='1.6'/><line x1='13.2' y1='13.2' x2='18.5' y2='18.5' stroke='black' stroke-width='1.8' stroke-linecap='round'/></svg>");
+            mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><circle cx='8.5' cy='8.5' r='6.5' fill='none' stroke='black' stroke-width='1.6'/><line x1='13.2' y1='13.2' x2='18.5' y2='18.5' stroke='black' stroke-width='1.8' stroke-linecap='round'/></svg>");
+        }
+
+        /* ---- Friend card ---- */
+        .friend-card {
+            background: var(--parchment-deep); border: 1px solid var(--parchment-line); border-radius: 4px;
+            padding: 1.5rem 1.25rem; display: flex; flex-direction: column; align-items: center; text-align: center;
+            transition: border-color 0.2s ease, transform 0.2s ease;
+        }
+        .friend-card:hover { border-color: var(--brass); transform: translateY(-2px); }
+
+        .avatar-seal {
+            width: 58px; height: 58px; border-radius: 50%;
+            border: 1.5px solid var(--brass); background: var(--parchment);
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Fraunces', serif; font-style: italic; font-weight: 600; font-size: 1.5rem; color: var(--walnut);
+            margin-bottom: 0.85rem;
+        }
+
+        .friend-name { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.05rem; color: var(--walnut); }
+        .friend-email { font-family: 'Inter', sans-serif; font-size: 0.76rem; color: var(--walnut-soft); margin-top: 0.15rem; }
+
+        .status-row { display: flex; align-items: center; margin-top: 0.6rem; font-family: 'Inter', sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; margin-right: 0.4rem; }
+        .status-online .status-dot { background: var(--forest); }
+        .status-online { color: var(--forest); }
+        .status-offline .status-dot { background: var(--parchment-line); border: 1px solid var(--walnut-soft); }
+        .status-offline { color: var(--walnut-soft); }
+
+        /* ---- Action buttons ---- */
+        .card-actions { display: flex; justify-content: center; gap: 0.5rem; margin-top: 1.1rem; flex-wrap: wrap; }
+        .action-btn {
+            font-family: 'Inter', sans-serif; font-size: 0.74rem; font-weight: 600; letter-spacing: 0.02em;
+            padding: 0.45rem 0.7rem; border-radius: 2px; border: 1px solid; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 0.35rem; background: transparent;
+            transition: background-color 0.15s ease, color 0.15s ease;
+        }
+        .action-btn .ic { width: 12px; height: 12px; background-color: currentColor; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center; -webkit-mask-size: contain; mask-size: contain; flex-shrink: 0; }
+
+        .btn-remove { border-color: var(--brick); color: var(--brick); }
+        .btn-remove:hover { background: var(--brick); color: var(--parchment); }
+        .btn-remove .ic { -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><line x1='2' y1='6' x2='10' y2='6' stroke='black' stroke-width='1.6' stroke-linecap='round'/></svg>"); mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><line x1='2' y1='6' x2='10' y2='6' stroke='black' stroke-width='1.6' stroke-linecap='round'/></svg>"); }
+
+        .btn-message { border-color: var(--walnut); color: var(--walnut); }
+        .btn-message:hover { background: var(--walnut); color: var(--parchment); }
+        .btn-message .ic { -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path d='M1 2h10v6H4l-3 3V2z' fill='none' stroke='black' stroke-width='1.2' stroke-linejoin='round'/></svg>"); mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path d='M1 2h10v6H4l-3 3V2z' fill='none' stroke='black' stroke-width='1.2' stroke-linejoin='round'/></svg>"); }
+
+        .btn-add { border-color: var(--forest); color: var(--forest); }
+        .btn-add:hover { background: var(--forest); color: var(--parchment); }
+        .btn-add .ic { -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><line x1='6' y1='1' x2='6' y2='11' stroke='black' stroke-width='1.6' stroke-linecap='round'/><line x1='1' y1='6' x2='11' y2='6' stroke='black' stroke-width='1.6' stroke-linecap='round'/></svg>"); mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><line x1='6' y1='1' x2='6' y2='11' stroke='black' stroke-width='1.6' stroke-linecap='round'/><line x1='1' y1='6' x2='11' y2='6' stroke='black' stroke-width='1.6' stroke-linecap='round'/></svg>"); }
+
+        /* ---- Empty state ---- */
+        .empty-note {
+            font-family: 'Fraunces', serif; font-style: italic; color: var(--walnut-soft);
+            border: 1px dashed var(--parchment-line); border-radius: 4px; padding: 2rem; text-align: center;
+            grid-column: 1 / -1;
+        }
+    </style>
 </head>
 
-<body class="bg-gray-900 text-gray-200 min-h-screen">
+<body class="min-h-screen">
 
     <!-- Navbar -->
-    <nav class="bg-gray-800 border-b border-gray-700 py-4 px-6">
+    <nav class="site-nav py-4 px-6">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <i class="fas fa-chess-queen text-blue-400 text-2xl"></i>
-                <span class="text-xl font-bold text-indigo-400"><a href="/">ChessMaster</a></span>
+            <div class="flex items-center space-x-2 brand-mark">
+                <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M10 27 L9 22 Q8.5 19 11 17 L11 15 Q6 13.5 6 10.5 Q6 7.5 10.5 6.5 Q10 4.5 12.5 3.2 Q15 2 18 3 Q20.5 3.8 20.5 6.2 Q20.5 8 18.5 9 Q21 10 20.5 12.5 L24 16 Q25 17 24 18.5 L20.5 19 L19.5 27 Z"
+                          fill="none" stroke="#3B2A1E" stroke-width="1.3" stroke-linejoin="round"/>
+                    <rect x="8" y="27" width="14" height="2.2" fill="none" stroke="#3B2A1E" stroke-width="1.3"/>
+                </svg>
+                <span class="brand-name"><a href="/">ChessMaster</a></span>
             </div>
-            <div class="flex space-x-6">
-                <a href="/" class="hover:text-blue-400">Home</a>
-                <form action="/game/play/<%= currentUser.id %>" method="post" class="hover:text-blue-400 transition">
-                    <button>Play</button></form>
-                <a href="/learn" class="hover:text-blue-400">Learn</a>
-                <a href="/friends" class="hover:text-blue-400">Friends</a>
+            <div class="flex items-center space-x-6">
+                <a href="/" class="nav-link">Home</a>
+                <form action="/game/play/<%= currentUser.id %>" method="post" class="nav-form">
+                    <button type="submit">Play</button>
+                </form>
+                <a href="/learn" class="nav-link">Learn</a>
+                <a href="/friends" class="nav-link">Friends</a>
             </div>
         </div>
     </nav>
 
-    <div class="container mx-auto px-4 py-8 max-w-6xl">
+    <div class="container mx-auto px-4 py-10 max-w-6xl">
 
         <!-- Header -->
-        <header class="flex justify-between items-center mb-8">
+        <header class="flex flex-col sm:flex-row justify-between sm:items-end gap-6 mb-10">
             <div>
-                <h1 class="text-3xl font-bold text-indigo-400">Friends</h1>
-                <p class="text-gray-400">Your social connections</p>
+                <div class="page-eyebrow">Your Club</div>
+                <h1 class="page-title">Friends</h1>
+                <p class="page-sub">People you play, and people you'd like to.</p>
             </div>
 
             <!-- Search Form -->
-            <form action="/friends/search" method="GET" class="relative">
-                <input type="text" name="q" placeholder="Search users..."
-                    class="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 pl-10 focus:outline-none focus:ring-2 focus:ring-indigo-500 w-64">
-                <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+            <form action="/friends/search" method="GET" class="search-wrap">
+                <span class="search-icon" aria-hidden="true"></span>
+                <input type="text" name="q" placeholder="Search users..." class="search-input">
             </form>
         </header>
 
         <!-- Friends Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
             <% const list = (searchResults && searchResults.length > 0) ? searchResults : (friends || []); %>
             
 
             <% if (list.length > 0) { %>
               <% list.forEach(user => { %>
-                <div class="bg-gray-800 rounded-lg p-4 shadow-lg flex flex-col items-center text-center">
-                      
+                <div class="friend-card">
+
                     <!-- Profile Picture Placeholder -->
-                    <div class="w-16 h-16 rounded-full bg-gray-600 flex items-center justify-center text-xl font-bold text-white mb-3">
-                        <i class="fas fa-user"></i>
-                    </div>
-  
-                <!-- User Info -->
-                    <p class="font-semibold text-lg"><%= user.username %></p>
-                    <p class="text-gray-400 text-sm"><%= user.email %></p>
-  
-  <!-- Status -->
-                    <div class="flex items-center mt-2">
+                    <div class="avatar-seal"><%= (user.username || "?").charAt(0).toUpperCase() %></div>
+
+                    <!-- User Info -->
+                    <p class="friend-name"><%= user.username %></p>
+                    <p class="friend-email"><%= user.email %></p>
+
+                    <!-- Status -->
+                    <div class="status-row">
                      <% if (user.status === "online") { %>
-                        <span class="w-3 h-3 bg-green-500 rounded-full mr-2"></span>
-                        <span class="text-green-500 text-sm font-medium">Online</span>
+                        <span class="status-online" style="display:flex;align-items:center;"><span class="status-dot"></span>Online</span>
                      <% } else { %>
-                        <span class="w-3 h-3 bg-gray-500 rounded-full mr-2"></span>
-                        <span class="text-gray-400 text-sm font-medium">Offline</span>
+                        <span class="status-offline" style="display:flex;align-items:center;"><span class="status-dot"></span>Offline</span>
                      <% } %>
                     </div>
-  
 
                       <!-- Action Buttons -->
-                      <div class="flex justify-center gap-2 mt-4">
+                      <div class="card-actions">
                             <% if (currentUser.friends.includes(user._id)) { %>
                               <form action="/friends/remove/<%= user._id %>" method="POST">
-                                  <button class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm">
-                                      <i class="fas fa-user-minus mr-1"></i> Remove
+                                  <button class="action-btn btn-remove">
+                                      <span class="ic" aria-hidden="true"></span> Remove
                                   </button>
                               </form>
                               <form action="/chat/<%= user._id %>" method="GET">
-                                  <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded text-sm">
-                                      <i class="fas fa-comment mr-1"></i> Message
+                                  <button class="action-btn btn-message">
+                                      <span class="ic" aria-hidden="true"></span> Message
                                   </button>
                               </form>
                           <% } else { %>
                               <form action="/friends/add/<%= user._id %>" method="POST">
-                                  <button class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm">
-                                      <i class="fas fa-user-plus mr-1"></i> Add Friend
+                                  <button class="action-btn btn-add">
+                                      <span class="ic" aria-hidden="true"></span> Add Friend
                                   </button>
                               </form>
                           <% } %>
@@ -99,10 +215,10 @@
                   </div>
               <% }) %>
             <% } else { %>
-              <p class="text-gray-400">No users found.</p>
+              <p class="empty-note">No users found.</p>
             <% } %>
         </div>
     </div>
-    
+
 </body>
 </html>

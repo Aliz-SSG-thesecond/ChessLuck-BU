@@ -7,148 +7,188 @@
         <title>Dashboard</title>
         <link rel="icon" type="image/x-icon" href="/images/faveicon.ico">
         <script src="https://cdn.tailwindcss.com"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;0,9..144,700;1,9..144,450&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@500;600&display=swap" rel="stylesheet">
         <style>
+            :root {
+                --parchment: #F2E8D0;
+                --parchment-deep: #E7D8B0;
+                --parchment-line: #C9B786;
+                --walnut: #3B2A1E;
+                --walnut-soft: #6E5643;
+                --walnut-deep: #2C2018;
+                --ink: #211508;
+                --brass: #A9812C;
+                --brass-bright: #C9A227;
+                --forest: #445640;
+                --brick: #9C4A36;
+            }
+
+            body {
+                background-color: var(--parchment);
+                background-image: radial-gradient(circle at 1px 1px, rgba(59,42,30,0.07) 1px, transparent 0);
+                background-size: 22px 22px;
+                font-family: 'Spectral', Georgia, serif;
+                color: var(--ink);
+            }
+
+            .font-display { font-family: 'Fraunces', serif; }
+            .font-utility { font-family: 'Inter', sans-serif; }
+
             .chess-board {
-                background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="50" height="50" x="0" y="0" fill="%23374151"/><rect width="50" height="50" x="50" y="50" fill="%23374151"/><rect width="50" height="50" x="0" y="50" fill="%23212a3e"/><rect width="50" height="50" x="50" y="0" fill="%23212a3e"/></svg>');
+                background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="50" height="50" x="0" y="0" fill="%23E7D8B0"/><rect width="50" height="50" x="50" y="50" fill="%23E7D8B0"/><rect width="50" height="50" x="0" y="50" fill="%233B2A1E"/><rect width="50" height="50" x="50" y="0" fill="%233B2A1E"/></svg>');
                 background-size: 100px 100px;
             }
 
-            .gradient-text {
-                background: linear-gradient(90deg, #6366f1, #8b5cf6);
-                -webkit-background-clip: text;
-                background-clip: text;
-                color: transparent;
-            }
+            .gradient-text { color: var(--brass); }
 
-            .pulse-animation {
-                animation: pulse 2s infinite;
+            @keyframes pulseRing {
+                0% { box-shadow: 0 0 0 0 rgba(169, 129, 44, 0.55); }
+                70% { box-shadow: 0 0 0 10px rgba(169, 129, 44, 0); }
+                100% { box-shadow: 0 0 0 0 rgba(169, 129, 44, 0); }
             }
+            .pulse-animation { animation: pulseRing 2s infinite; }
 
             @keyframes pulse {
-                0% {
-                    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7);
-                }
-
-                70% {
-                    box-shadow: 0 0 0 10px rgba(99, 102, 241, 0);
-                }
-
-                100% {
-                    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
-                }
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0.5; }
             }
+            .pulse { animation: pulse 2s infinite; }
 
-            .move-history::-webkit-scrollbar {
-                width: 5px;
+            .move-history::-webkit-scrollbar { width: 5px; }
+            .move-history::-webkit-scrollbar-track { background: var(--parchment); }
+            .move-history::-webkit-scrollbar-thumb { background: var(--parchment-line); border-radius: 10px; }
+
+            .sticky-profile { position: sticky; top: 20px; z-index: 10; }
+            @media (max-width: 1023px) { .sticky-profile { position: static; } }
+
+            .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+            .custom-scrollbar::-webkit-scrollbar-track { background: var(--parchment); }
+            .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--parchment-line); border-radius: 3px; }
+            .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: var(--brass); }
+
+            /* ---- Nav ---- */
+            nav.site-nav { background-color: var(--parchment-deep); border-bottom: 1px solid var(--parchment-line); }
+            .brand-mark svg { width: 28px; height: 28px; }
+            .brand-name { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.15rem; letter-spacing: 0.01em; color: var(--walnut); }
+            .nav-link, .nav-form button {
+                font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.02em;
+                color: var(--walnut-soft); border-bottom: 1px solid transparent; padding-bottom: 2px;
+                background: none; border-top: none; border-left: none; border-right: none; cursor: pointer;
+                transition: color 0.15s ease, border-color 0.15s ease;
             }
-
-            .move-history::-webkit-scrollbar-track {
-                background: #1e293b;
+            .nav-link:hover, .nav-form button:hover { color: var(--walnut); border-color: var(--brass); }
+            .btn-ghost { font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 600; color: var(--walnut-soft); transition: color 0.15s ease; }
+            .btn-ghost:hover { color: var(--walnut); }
+            .btn-outline {
+                font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.02em;
+                color: var(--walnut); border: 1px solid var(--walnut); padding: 0.55rem 1.1rem; border-radius: 2px;
+                transition: background-color 0.15s ease, color 0.15s ease; display: inline-block;
             }
+            .btn-outline:hover { background-color: var(--walnut); color: var(--parchment); }
+            .hamburger-icon { width: 20px; height: 14px; position: relative; }
+            .hamburger-icon span { position: absolute; left: 0; width: 100%; height: 1.5px; background: var(--walnut); }
+            .hamburger-icon span:nth-child(1) { top: 0; }
+            .hamburger-icon span:nth-child(2) { top: 6px; }
+            .hamburger-icon span:nth-child(3) { top: 12px; }
 
-            .move-history::-webkit-scrollbar-thumb {
-                background: #4b5563;
-                border-radius: 10px;
+            /* ---- Header ---- */
+            .welcome-title { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.7rem; color: var(--walnut); }
+            .welcome-title em { font-style: italic; color: var(--brass); font-weight: 500; }
+            .btn-fill {
+                font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.03em;
+                background: var(--walnut); color: var(--parchment); border: 1px solid var(--walnut);
+                padding: 0.7rem 1.3rem; border-radius: 2px; display: inline-flex; align-items: center; gap: 0.5rem;
+                transition: background-color 0.15s ease, color 0.15s ease;
             }
+            .btn-fill:hover { background: transparent; color: var(--walnut); }
 
-            .sticky-profile {
-                position: sticky;
-                top: 20px;
-                z-index: 10;
+            /* ---- Stat cards (editorial ledger, no gradients / no icon circles) ---- */
+            .stat-card {
+                background: var(--parchment-deep);
+                border: 1px solid var(--parchment-line);
+                border-left: 3px solid var(--accent, var(--brass));
+                border-radius: 2px;
+                padding: 1.4rem 1.5rem;
             }
-
-            @media (max-width: 1023px) {
-                .sticky-profile {
-                    position: static;
-                }
+            .stat-label {
+                font-family: 'Inter', sans-serif; font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase;
+                color: var(--walnut-soft); margin-bottom: 0.5rem;
             }
+            .stat-value { font-family: 'Fraunces', serif; font-weight: 600; font-size: 2.1rem; color: var(--walnut); line-height: 1; }
 
-            /* Custom scrollbar */
-            .custom-scrollbar::-webkit-scrollbar {
-                width: 6px;
+            /* ---- Deck carousel ---- */
+            .deck-intro-card {
+                background: linear-gradient(160deg, var(--walnut-deep) 0%, var(--walnut) 100%);
+                color: var(--parchment);
+                font-family: 'Fraunces', serif;
+                font-style: italic;
+                font-size: 1.05rem;
+                border: 1px solid var(--brass);
             }
-
-            .custom-scrollbar::-webkit-scrollbar-track {
-                background: #1a202c;
+            .deck-badge {
+                font-family: 'Inter', sans-serif;
+                font-weight: 600;
+                font-size: 0.85rem;
+                background: var(--parchment);
+                color: var(--walnut);
+                border: 1px solid var(--brass);
             }
-
-            .custom-scrollbar::-webkit-scrollbar-thumb {
-                background: #4a5568;
-                border-radius: 3px;
+            .deck-carousel input:checked + label { width: 600px; }
+            .deck-carousel input:checked + label .description {
+                opacity: 1 !important;
+                transform: translateY(0) !important;
             }
-
-            .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-                background: #718096;
-            }
-
-            /* Pulse animation for online status */
-            @keyframes pulse {
-                0% {
-                    opacity: 1;
-                }
-
-                50% {
-                    opacity: 0.5;
-                }
-
-                100% {
-                    opacity: 1;
-                }
-            }
-
-            .pulse {
-                animation: pulse 2s infinite;
+            .deck-carousel .description {
+                transition: all .3s ease;
+                transition-delay: .3s;
             }
         </style>
     </head>
 
-    <body class="bg-gray-900 text-gray-200 min-h-screen">
-        <nav class="bg-gray-800 border-b border-gray-700 py-4 px-6 sticky top-0 z-50">
+    <body class="min-h-screen">
+        <nav class="site-nav py-4 px-6 sticky top-0 z-50">
             <div class="max-w-7xl mx-auto flex justify-between items-center">
-                <div class="flex items-center space-x-2">
-                    <i class="fas fa-chess-queen text-blue-400 text-2xl"></i>
-                    <span
-                        class="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent hover:text-blue-400 transition"><a
-                            href="http://localhost:5000/">ChessMaster</a></span>
+                <div class="flex items-center space-x-2 brand-mark">
+                    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M10 27 L9 22 Q8.5 19 11 17 L11 15 Q6 13.5 6 10.5 Q6 7.5 10.5 6.5 Q10 4.5 12.5 3.2 Q15 2 18 3 Q20.5 3.8 20.5 6.2 Q20.5 8 18.5 9 Q21 10 20.5 12.5 L24 16 Q25 17 24 18.5 L20.5 19 L19.5 27 Z"
+                              fill="none" stroke="#3B2A1E" stroke-width="1.3" stroke-linejoin="round"/>
+                        <rect x="8" y="27" width="14" height="2.2" fill="none" stroke="#3B2A1E" stroke-width="1.3"/>
+                    </svg>
+                    <span class="brand-name"><a href="http://localhost:5000/">ChessMaster</a></span>
                 </div>
 
-                <div class="hidden md:flex space-x-6">
-                   
-                    <form action="/game/play/<%= user.id %>" method="post" class="hover:text-blue-400 transition">
-                      <button>Play</button>
+                <div class="hidden md:flex items-center space-x-6">
+                    <form action="/game/play/<%= user.id %>" method="post" class="nav-form">
+                        <button type="submit">Play</button>
                     </form>
-                    
-                    <a href="http://localhost:5000/learn" class="hover:text-blue-400 transition">Puzzles</a>
-                    <a href="http://localhost:5000/learn" class="hover:text-blue-400 transition">Learn</a>
-                    <a href="http://localhost:5000/friends" class="hover:text-blue-400 transition">Friends</a>
+                    <a href="http://localhost:5000/learn" class="nav-link">Puzzles</a>
+                    <a href="http://localhost:5000/learn" class="nav-link">Learn</a>
+                    <a href="http://localhost:5000/friends" class="nav-link">Friends</a>
                 </div>
 
                 <div class="flex items-center space-x-4">
-                    <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-md transition"><a
-                            href="/auth/changepassword">Change password</a></button>
-                    <button class="hidden md:block bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-md transition"><a
-                            href="/auth/logout">Logout</a></button>
-                    <button class="md:hidden text-xl">
-                        <i class="fas fa-bars"></i>
+                    <button class="btn-outline"><a href="/auth/changepassword">Change password</a></button>
+                    <button class="btn-ghost hidden md:block"><a href="/auth/logout">Logout</a></button>
+                    <button class="md:hidden text-xl" aria-label="Open menu">
+                        <span class="hamburger-icon"><span></span><span></span><span></span></span>
                     </button>
                 </div>
             </div>
         </nav>
 
         <!-- Main Content -->
-        <main class="flex-1 p-6 overflow-y-auto">
+        <main class="flex-1 p-6 overflow-y-auto max-w-7xl mx-auto w-full">
             <div class="flex justify-between items-center mb-6">
-              <h2 class="text-2xl font-bold ">Welcome back <span class="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent"><%= user.username %></span></h2>
+              <h2 class="welcome-title">Welcome back, <em><%= user.username %></em></h2>
               <div class="flex space-x-3">
                 <form action="/game/play/<%= user._id %>" method="post">
-                  <button type="submit"
-                    class="bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-lg flex items-center space-x-2 transition">
-                    <i class="fas fa-plus"></i>
+                  <button type="submit" class="btn-fill">
                     <span>New Game</span>
                   </button>
-                <!-- </form>
-                <a href="/user/profile"
+                </form>
+                <!-- <a href="/user/profile"
                   class="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg flex items-center space-x-2 transition">
                   <i class="fas fa-user"></i>
                   <span>Profile</span>
@@ -157,133 +197,88 @@
             </div>
           
             <!-- Stats Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-              <div class="bg-gradient-to-r from-green-600 to-green-700 p-6 rounded-xl text-white">
-                <div class="flex items-center justify-between">
-                  <div>
-                    <p class="text-green-100 text-sm">Wins</p>
-                    <p class="text-3xl font-bold"><%= user.wins %></p>
-                  </div>
-                  <i class="fas fa-trophy text-3xl opacity-80"></i>
-                </div>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-5 mb-10">
+              <div class="stat-card" style="--accent: var(--forest);">
+                <p class="stat-label">Wins</p>
+                <p class="stat-value"><%= user.wins %></p>
               </div>
-              
-              <div class="bg-gradient-to-r from-red-600 to-red-700 p-6 rounded-xl text-white">
-                <div class="flex items-center justify-between">
-                  <div>
-                    <p class="text-red-100 text-sm">Losses</p>
-                    <p class="text-3xl font-bold"><%= user.losses %></p>
-                  </div>
-                  <i class="fas fa-times-circle text-3xl opacity-80"></i>
-                </div>
+
+              <div class="stat-card" style="--accent: var(--brick);">
+                <p class="stat-label">Losses</p>
+                <p class="stat-value"><%= user.losses %></p>
               </div>
-              
-              <div class="bg-gradient-to-r from-yellow-600 to-yellow-700 p-6 rounded-xl text-white">
-                <div class="flex items-center justify-between">
-                  <div>
-                    <p class="text-yellow-100 text-sm">Draws</p>
-                    <p class="text-3xl font-bold"><%= user.draws %></p>
-                  </div>
-                  <i class="fas fa-handshake text-3xl opacity-80"></i>
-                </div>
+
+              <div class="stat-card" style="--accent: var(--brass);">
+                <p class="stat-label">Draws</p>
+                <p class="stat-value"><%= user.draws %></p>
               </div>
-              
-              <div class="bg-gradient-to-r from-blue-600 to-blue-700 p-6 rounded-xl text-white">
-                <div class="flex items-center justify-between">
-                  <div>
-                    <p class="text-blue-100 text-sm">Win Rate</p>
-                    <p class="text-3xl font-bold"><%= user.winRate %>%</p>
-                  </div>
-                  <i class="fas fa-chart-line text-3xl opacity-80"></i>
-                </div>
+
+              <div class="stat-card" style="--accent: var(--walnut);">
+                <p class="stat-label">Win Rate</p>
+                <p class="stat-value"><%= user.winRate %>%</p>
               </div>
             </div>
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-              <meta charset="UTF-8">
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>Animated Flex Cards (Tailwind)</title>
-              <script src="https://cdn.tailwindcss.com"></script>
-              <style>
-                /* extra transitions that Tailwind doesn’t cover directly */
-                input:checked + label {
-                  width: 600px;
-                }
-                input:checked + label .description {
-                  opacity: 1 !important;
-                  transform: translateY(0) !important;
-                }
-                .description {
-                  transition: all .3s ease;
-                  transition-delay: .3s;
-                }
-              </style>
-            </head>
-            <div class="w-full h-[450px] flex items-center justify-center"><span class="card w-[400px] h-[400px] bg-gradient-to-r from-blue-800 to-blue-900 cursor-default overflow-hidden rounded-2xl flex items-center justify-center shadow-[0_10px_30px_-5px_rgba(0,0,0,0.8)] text-white text-[18px] text-center">
-              ==>
-              This Week's Available Decks
-              ==>
-            </span>
+
+            <!-- Deck Carousel -->
+            <div class="deck-carousel w-full h-[450px] flex items-center justify-start gap-0">
+              <span class="deck-intro-card w-[280px] h-[400px] flex-shrink-0 rounded-md flex items-center justify-center text-center p-6">
+                This Week's Available Decks
+              </span>
               <div class="h-[400px] flex flex-nowrap justify-start">
-                <% 
+                <%
                   const gradients = [
-                    "from-red-500 to-yellow-500",
-                    "from-blue-500 to-green-500",
-                    "from-purple-500 to-pink-500",
-                    "from-indigo-500 to-teal-500",
-                    "from-orange-500 to-rose-500"
+                    "from-black/10 to-black/70",
+                    "from-black/15 to-black/65",
+                    "from-black/10 to-black/75",
+                    "from-black/20 to-black/60",
+                    "from-black/10 to-black/70"
                   ];
                 %>
                 <% decks.forEach((deck, index) => { %>
                   <input type="radio" name="slide" id="c<%= index + 1 %>" class="hidden" <%= index === 0 ? "checked" : "" %>>
-                  <label for="c<%= index + 1 %>" 
-                         class="card relative w-20 mx-2 cursor-pointer overflow-hidden rounded-2xl flex items-end shadow-[0_10px_30px_-5px_rgba(0,0,0,0.8)] transition-[width] duration-[600ms] ease-[cubic-bezier(.28,-0.03,0,.99)]">
-                    
+                  <label for="c<%= index + 1 %>"
+                         class="card relative w-20 mx-2 cursor-pointer overflow-hidden rounded-md flex items-end shadow-[0_10px_30px_-5px_rgba(33,21,8,0.5)] transition-[width] duration-[600ms] ease-[cubic-bezier(.28,-0.03,0,.99)]">
+
                     <!-- Background image -->
                     <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('<%= deck.image %>');"></div>
-                    
-                    <!-- Gradient overlay -->
-                    <div class="absolute inset-0 bg-gradient-to-r <%= gradients[index % gradients.length] %> opacity-70"></div>
-                    
+
+                    <!-- Overlay -->
+                    <div class="absolute inset-0 bg-gradient-to-t <%= gradients[index % gradients.length] %>"></div>
+
                     <!-- Content -->
-                    <div class="relative row flex text-white flex-nowrap">
-                      <div class="icon bg-[#223] rounded-full w-12 h-12 m-4 flex justify-center items-center">
+                    <div class="relative row flex text-white flex-nowrap items-center">
+                      <div class="deck-badge rounded-md w-9 h-9 m-3 flex justify-center items-center flex-shrink-0">
                         <%= index + 1 %>
                       </div>
-                      <div class="description flex flex-col justify-center h-20 w-[520px] opacity-0 translate-y-8">
-                        <h4 class="uppercase text-[24px] drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]
-                        "><%= deck.name %></h4>
-                        <p class="text-[gray-400] pt-1"><%= deck.description %></p>
+                      <div class="description flex flex-col justify-center h-20 w-[500px] opacity-0 translate-y-8">
+                        <h4 class="uppercase text-[22px] font-display drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]"><%= deck.name %></h4>
+                        <p class="text-gray-200 pt-1 font-serif"><%= deck.description %></p>
                       </div>
                     </div>
                   </label>
                 <% }) %>
               </div>
             </div>
-            
-            
-            </html>
-            
-          
-            
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    console.log('Chess dashboard loaded');
-                    
-                    // Add some interactive elements
-                    const statsCards = document.querySelectorAll('.bg-gradient-to-r');
-                    statsCards.forEach(card => {
-                        card.addEventListener('mouseenter', function() {
-                            this.style.transform = 'translateY(-2px)';
-                            this.style.transition = 'transform 0.2s ease';
-                        });
-                        card.addEventListener('mouseleave', function() {
-                            this.style.transform = 'translateY(0)';
-                        });
+
+        </main>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                console.log('Chess dashboard loaded');
+                
+                // Add some interactive elements
+                const statsCards = document.querySelectorAll('.stat-card');
+                statsCards.forEach(card => {
+                    card.addEventListener('mouseenter', function() {
+                        this.style.transform = 'translateY(-2px)';
+                        this.style.transition = 'transform 0.2s ease';
+                    });
+                    card.addEventListener('mouseleave', function() {
+                        this.style.transform = 'translateY(0)';
                     });
                 });
-            </script>
+            });
+        </script>
     </body>
 
 </html>

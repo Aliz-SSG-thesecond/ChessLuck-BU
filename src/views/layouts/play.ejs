@@ -9,49 +9,277 @@
   <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" type="image/x-icon" href="/images/faveicon.ico">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;0,9..144,700;1,9..144,450&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@500;600&display=swap" rel="stylesheet">
 
   <style>
-    :root{--bg-900:#0b1220;--muted:#94a3b8;--accent:#60A5FA;}
-    html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg-900),#07101a);color:#e6eef8;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial}
-    .bg-layer{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:screen;opacity:0.18}
-    .bg-gradient{position:absolute;inset:-10% -10%;background:linear-gradient(120deg,rgba(96,165,250,0.14),rgba(59,130,246,0.08) 40%,rgba(148,163,184,0.04));filter:blur(40px);animation:shift 14s linear infinite}
-    @keyframes shift{0%{transform:translate(-6%,-3%)}50%{transform:translate(6%,3%)}100%{transform:translate(-6%,-3%)}}
-    .app{position:relative;z-index:2;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:28px;box-sizing:border-box}
+    :root{
+      --parchment:#F2E8D0;
+      --parchment-deep:#E7D8B0;
+      --parchment-line:#C9B786;
+      --walnut:#3B2A1E;
+      --walnut-soft:#6E5643;
+      --walnut-deep:#2C2018;
+      --ink:#211508;
+      --brass:#A9812C;
+      --brass-bright:#C9A227;
+      --forest:#445640;
+    }
+
+    html,body{
+      height:100%;
+      margin:0;
+      background-color:var(--parchment);
+      background-image:radial-gradient(circle at 1px 1px, rgba(59,42,30,0.07) 1px, transparent 0);
+      background-size:22px 22px;
+      color:var(--ink);
+      font-family:'Spectral', Georgia, serif;
+    }
+
+    .font-display{ font-family:'Fraunces', serif; }
+    .font-utility{ font-family:'Inter', sans-serif; }
+
+    .app{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:24px 24px 40px;box-sizing:border-box}
+
+    /* ---- Top strip ---- */
+    .top-strip{
+      width:1140px;max-width:95%;
+      display:flex;justify-content:space-between;align-items:baseline;
+      border-bottom:1px solid var(--parchment-line);
+      padding-bottom:14px;margin-bottom:20px;
+    }
+    .top-strip .wordmark{
+      font-family:'Fraunces', serif;
+      font-style:italic;
+      font-weight:500;
+      font-size:1.15rem;
+      color:var(--walnut);
+    }
+    .top-strip .game-tag{
+      font-family:'Inter', sans-serif;
+      font-size:0.7rem;
+      letter-spacing:0.16em;
+      text-transform:uppercase;
+      color:var(--brass);
+    }
+    .top-strip .game-tag span{ color:var(--walnut-soft); letter-spacing:0.02em; text-transform:none; }
+
     .container{width:1140px;max-width:95%;display:grid;grid-template-columns:640px 1fr;gap:20px}
-    .panel{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);backdrop-filter:blur(6px);border-radius:12px;padding:14px;box-shadow:0 6px 20px rgba(2,6,23,0.6)}
-    #board{width:600px;height:600px;border-radius:10px;overflow:hidden;background:linear-gradient(180deg,#0f1724,#07101a);box-shadow:0 10px 30px rgba(2,6,23,0.7);}
-    .move-row{display:flex;gap:8px;margin-bottom:6px;align-items:center}
-    .move-number{color:var(--muted);width:30px;text-align:right}
-    .move-cell{background:rgba(255,255,255,0.03);padding:8px 10px;border-radius:8px;color:#dbeafe;font-weight:600}
-    @media (max-width:1000px){.container{grid-template-columns:1fr}#board{width:90vw;height:90vw}}
+
+    .panel{
+      background:var(--parchment-deep);
+      border:1px solid var(--parchment-line);
+      border-radius:4px;
+      padding:16px;
+      box-shadow:0 12px 28px -18px rgba(33,21,8,0.35);
+    }
+
+    .panel-dark{
+      background:linear-gradient(160deg, var(--walnut-deep) 0%, var(--walnut) 55%, #4A3624 100%);
+      border:1px solid var(--walnut);
+      border-radius:4px;
+      padding:18px;
+      box-shadow:0 16px 34px -18px rgba(33,21,8,0.55);
+      color:var(--parchment);
+    }
+
+    .panel-header{
+      display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;
+    }
+    .panel-title{
+      font-family:'Fraunces', serif;
+      font-weight:600;
+      font-size:1.05rem;
+    }
+    .panel-sub{
+      font-family:'Inter', sans-serif;
+      font-size:0.72rem;
+      letter-spacing:0.04em;
+      color:rgba(242,232,208,0.6);
+      margin-top:2px;
+    }
+    .panel-sub span{ color:var(--brass-bright); }
+
+    .btn-outline-light{
+      font-family:'Inter', sans-serif;
+      font-size:0.75rem;
+      font-weight:600;
+      letter-spacing:0.03em;
+      cursor:pointer;
+      padding:0.5rem 0.9rem;
+      border-radius:2px;
+      border:1px solid rgba(242,232,208,0.4);
+      background:transparent;
+      color:var(--parchment);
+      transition:background-color 0.15s ease, color 0.15s ease;
+    }
+    .btn-outline-light:hover{
+      background:var(--brass-bright);
+      border-color:var(--brass-bright);
+      color:var(--walnut-deep);
+    }
+
+    /* ---- Board frame (wooden case) ---- */
+    .board-frame{
+      background:var(--walnut-deep);
+      border:1px solid var(--brass);
+      border-radius:4px;
+      padding:14px;
+      position:relative;
+      margin:0 auto;
+      width:fit-content;
+    }
+    .board-frame::before,
+    .board-frame::after,
+    .board-frame .corner-tl,
+    .board-frame .corner-br{
+      content:"";
+      position:absolute;
+      width:16px;height:16px;
+      border:1.5px solid var(--brass-bright);
+    }
+    .board-frame::before{ top:6px; left:6px; border-right:none; border-bottom:none; }
+    .board-frame::after{ bottom:6px; right:6px; border-left:none; border-top:none; }
+    .board-frame .corner-tl{ top:6px; right:6px; border-left:none; border-bottom:none; }
+    .board-frame .corner-br{ bottom:6px; left:6px; border-right:none; border-top:none; }
+
+    #board{width:600px;height:600px;border-radius:2px;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(0,0,0,0.4);}
+
+    .status-row{
+      display:flex;justify-content:space-between;align-items:center;margin-top:16px;
+    }
+    #statusText{
+      font-family:'Inter', sans-serif;
+      font-size:0.82rem;
+      letter-spacing:0.02em;
+      color:var(--walnut-soft);
+    }
+    #statusText::before{
+      content:"●";
+      color:var(--forest);
+      font-size:0.55rem;
+      margin-right:0.5rem;
+    }
+
+    /* ---- Player rows ---- */
+    .player-row{ display:flex;align-items:center;justify-content:space-between; }
+    .player-row .who{ display:flex;align-items:center;gap:12px; }
+    .player-row img{
+      width:46px;height:46px;object-fit:cover;border-radius:2px;
+      border:1px solid var(--brass);
+      box-shadow:0 0 0 3px var(--parchment-deep), 0 0 0 4px var(--parchment-line);
+    }
+    .player-name{
+      font-family:'Fraunces', serif;
+      font-weight:600;
+      font-size:1rem;
+      color:var(--walnut);
+    }
+    .player-rating{
+      font-family:'Inter', sans-serif;
+      font-size:0.76rem;
+      color:var(--walnut-soft);
+    }
+    .side-tag{
+      font-family:'Inter', sans-serif;
+      font-size:0.68rem;
+      font-weight:600;
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+      padding:0.3rem 0.65rem;
+      border-radius:2px;
+      border:1px solid var(--walnut);
+    }
+    .side-tag.tag-white{ background:var(--parchment); color:var(--walnut); }
+    .side-tag.tag-black{ background:var(--walnut); color:var(--parchment); }
+
+    /* ---- Move list ---- */
+    .move-row{display:flex;gap:8px;margin-bottom:0;align-items:center;padding:6px 0;border-bottom:1px dashed var(--parchment-line);}
+    .move-row:last-child{ border-bottom:none; }
+    .move-number{color:var(--walnut-soft);width:26px;text-align:right;font-family:'Inter', sans-serif;font-size:0.76rem;}
+    .move-cell{background:var(--parchment);border:1px solid var(--parchment-line);padding:6px 10px;border-radius:2px;color:var(--ink);font-family:'Spectral', serif;font-weight:600;font-size:0.88rem;min-width:56px;}
+
+    /* ---- Chat ---- */
+    #chatWindow{ display:flex; flex-direction:column; gap:8px; }
+    .chat-bubble{
+      display:inline-block;
+      background:var(--parchment);
+      border:1px solid var(--parchment-line);
+      color:var(--ink);
+      padding:0.4rem 0.75rem;
+      border-radius:2px;
+      font-family:'Spectral', serif;
+      font-size:0.9rem;
+      max-width:85%;
+    }
+    .chat-bubble.mine{ border-color:var(--brass); border-left-width:3px; }
+
+    #chatInput{
+      background:var(--parchment);
+      border:1px solid var(--parchment-line);
+      border-radius:2px;
+      color:var(--ink);
+      font-family:'Spectral', serif;
+      font-size:0.92rem;
+    }
+    #chatInput::placeholder{ color:rgba(110,86,67,0.55); }
+    #chatInput:focus{
+      outline:none;
+      border-color:var(--brass);
+      box-shadow:0 0 0 3px rgba(169,129,44,0.22);
+    }
+    #sendChatBtn{
+      font-family:'Inter', sans-serif;
+      font-size:0.8rem;
+      font-weight:600;
+      letter-spacing:0.02em;
+      background:var(--walnut);
+      color:var(--parchment);
+      border:1px solid var(--walnut);
+      border-radius:2px;
+      padding:0.5rem 1rem;
+      transition:background-color 0.15s ease, color 0.15s ease;
+    }
+    #sendChatBtn:hover{ background:transparent; color:var(--walnut); }
+
+    @media (max-width:1000px){
+      .container{grid-template-columns:1fr}
+      #board{width:90vw;height:90vw}
+      .board-frame{ width:auto; }
+    }
   </style>
 </head>
 
 <body>
-  <div class="bg-layer" aria-hidden="true">
-    <div class="bg-gradient"></div>
-  </div>
-
   <div class="app">
+
+    <div class="top-strip">
+      <div class="wordmark">ChessMaster — Live Match</div>
+      <div class="game-tag">Game <span id="roomId"><%= gameId %></span></div>
+    </div>
+
     <div class="container">
       <!-- LEFT -->
-      <section class="panel">
-        <div class="flex justify-between items-center mb-3">
+      <section class="panel-dark">
+        <div class="panel-header">
           <div>
-            <div class="font-bold text-lg">Live Match</div>
-            <div class="text-sm text-gray-400">Game ID: <span id="roomId"><%= gameId %></span></div>
+            <div class="panel-title">Board</div>
+            <div class="panel-sub">watch the clock, mind the center</div>
           </div>
           <div class="flex gap-2 items-center">
-            <button id="flipBtn" class="px-3 py-2 rounded bg-transparent border border-white/6 text-sm">Flip</button>
+            <button id="flipBtn" class="btn-outline-light">Flip board</button>
             <!-- <button id="resignBtn" class="px-3 py-2 rounded bg-red-600 text-sm">Resign</button> -->
           </div>
         </div>
 
-        <div id="board" class="mx-auto"></div>
+        <div class="board-frame">
+          <span class="corner-tl"></span><span class="corner-br"></span>
+          <div id="board"></div>
+        </div>
 
-        <div class="flex justify-between mt-4 items-center">
-          <div class="text-sm text-gray-300" id="statusText">Waiting for server...</div>
+        <div class="status-row">
+          <div id="statusText">Waiting for server...</div>
           <!-- <div class="flex gap-2">
             <button id="offerDrawBtn" class="px-3 py-2 rounded bg-gray-700 text-sm">Offer Draw</button>
             <button id="takeBackBtn" class="px-3 py-2 rounded bg-gray-700 text-sm">Offer Takeback</button>
@@ -62,43 +290,43 @@
       <!-- RIGHT -->
       <aside class="flex flex-col gap-4">
         <!-- Players -->
-        <div class="panel flex items-center justify-between">
-          <div class="flex items-center gap-3">
-            <img src="<%= player1.avatar %>" alt="p1" class="w-12 h-12 rounded-md object-cover" />
+        <div class="panel player-row">
+          <div class="who">
+            <img src="<%= player1.avatar %>" alt="p1" />
             <div>
-              <div class="font-semibold"><%= player1.username %></div>
-              <div class="text-sm text-gray-400"> <%= player1.rating %></div>
+              <div class="player-name"><%= player1.username %></div>
+              <div class="player-rating"><%= player1.rating %></div>
             </div>
           </div>
-          <div class="text-sm bg-green-800 px-3 py-1 rounded">White</div>
+          <div class="side-tag tag-white">White</div>
         </div>
 
-        <div class="panel flex items-center justify-between">
-          <div class="flex items-center gap-3">
-            <img src="<%= player2.avatar %>" alt="p2" class="w-12 h-12 rounded-md object-cover" />
+        <div class="panel player-row">
+          <div class="who">
+            <img src="<%= player2.avatar %>" alt="p2" />
             <div>
-              <div class="font-semibold"><%= player2.username %></div>
-              <div class="text-sm text-gray-400"> <%= player2.rating %></div>
+              <div class="player-name"><%= player2.username %></div>
+              <div class="player-rating"><%= player2.rating %></div>
             </div>
           </div>
-          <div class="text-sm bg-blue-800 px-3 py-1 rounded">Black</div>
+          <div class="side-tag tag-black">Black</div>
         </div>
 
         <!-- Move list -->
         <div class="panel">
-          <div class="flex justify-between items-center mb-2">
-            <div class="font-semibold">Move List</div>
+          <div class="panel-header" style="margin-bottom:8px;">
+            <div class="player-name" style="font-size:0.95rem;">Move List</div>
           </div>
           <div id="moves" class="overflow-y-auto max-h-72 pr-2"></div>
         </div>
 
         <!-- Chat -->
         <div class="panel flex flex-col">
-          <div class="font-semibold mb-2">Chat</div>
-          <div id="chatWindow" class="flex-1 overflow-y-auto space-y-2 pb-2"></div>
+          <div class="player-name" style="font-size:0.95rem;margin-bottom:8px;">Chat</div>
+          <div id="chatWindow" class="flex-1 overflow-y-auto pb-2"></div>
           <form id="chatForm" class="mt-2 flex gap-2" onsubmit="return false;">
-            <input id="chatInput" class="flex-1 bg-transparent border border-white/6 rounded px-3 py-2 text-sm focus:outline-none" placeholder="Type a message..." />
-            <button id="sendChatBtn" class="bg-indigo-600 px-4 py-2 rounded">Send</button>
+            <input id="chatInput" class="flex-1 px-3 py-2 text-sm" placeholder="Type a message..." />
+            <button id="sendChatBtn">Send</button>
           </form>
         </div>
       </aside>
@@ -214,7 +442,8 @@
     socket.on("chatMessage", m => {
       const div = document.createElement("div");
       div.className = (String(m.senderId) === String(myUserId)) ? "text-right" : "text-left";
-      div.innerHTML = `<span class="inline-block bg-gray-800 px-3 py-1 rounded">${m.text}</span>`;
+      const mine = String(m.senderId) === String(myUserId);
+      div.innerHTML = `<span class="chat-bubble${mine ? ' mine' : ''}">${m.text}</span>`;
       document.getElementById("chatWindow").appendChild(div);
     });
     socket.on("chatHistory", list => {
@@ -222,8 +451,9 @@
       win.innerHTML = "";
       (list || []).forEach(m => {
         const div = document.createElement("div");
-        div.className = (String(m.senderId) === String(myUserId)) ? "text-right" : "text-left";
-        div.innerHTML = `<span class=\"inline-block bg-gray-800 px-3 py-1 rounded\">${m.text}</span>`;
+        const mine = String(m.senderId) === String(myUserId);
+        div.className = mine ? "text-right" : "text-left";
+        div.innerHTML = `<span class=\"chat-bubble${mine ? ' mine' : ''}\">${m.text}</span>`;
         win.appendChild(div);
       });
       win.scrollTop = win.scrollHeight;

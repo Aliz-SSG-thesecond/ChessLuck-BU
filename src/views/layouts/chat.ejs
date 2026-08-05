@@ -7,31 +7,153 @@
   <title>ChessLuck Chat</title>
   <link rel="icon" type="image/x-icon" href="/images/faveicon.ico" />
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;0,9..144,700;1,9..144,450&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@500;600&display=swap" rel="stylesheet">
   <style>
-    .chat-container {
-      height: calc(100vh - 160px);
+    :root {
+      --parchment: #F2E8D0;
+      --parchment-deep: #E7D8B0;
+      --parchment-line: #C9B786;
+      --walnut: #3B2A1E;
+      --walnut-soft: #6E5643;
+      --ink: #211508;
+      --brass: #A9812C;
+      --brass-bright: #C9A227;
+      --forest: #445640;
     }
-    .message-bubble {
-      max-width: 90%;
-      word-wrap: break-word;
-      white-space: pre-wrap;
+
+    body {
+      background-color: var(--parchment);
+      background-image: radial-gradient(circle at 1px 1px, rgba(59,42,30,0.07) 1px, transparent 0);
+      background-size: 22px 22px;
+      font-family: 'Spectral', Georgia, serif;
+      color: var(--ink);
     }
+
+    .font-display { font-family: 'Fraunces', serif; }
+    .font-utility { font-family: 'Inter', sans-serif; }
+
+    /* ---- Nav ---- */
+    nav.site-nav { background-color: var(--parchment-deep); border-bottom: 1px solid var(--parchment-line); }
+    .brand-mark svg { width: 26px; height: 26px; }
+    .brand-name { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.1rem; letter-spacing: 0.01em; color: var(--walnut); }
+    .nav-link {
+      font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.02em;
+      color: var(--walnut-soft); border-bottom: 1px solid transparent; padding-bottom: 2px;
+      transition: color 0.15s ease, border-color 0.15s ease;
+    }
+    .nav-link:hover { color: var(--walnut); border-color: var(--brass); }
+
+    .chat-container { height: calc(100vh - 260px); }
+    .message-bubble { max-width: 90%; word-wrap: break-word; white-space: pre-wrap; }
+
+    /* ---- Friend header ---- */
+    .friend-header {
+      background: var(--parchment-deep);
+      border: 1px solid var(--parchment-line);
+      border-radius: 4px;
+    }
+    .friend-avatar { border: 1.5px solid var(--brass); border-radius: 50%; }
+    .friend-name { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.1rem; color: var(--walnut); }
+    .status-line { font-family: 'Inter', sans-serif; font-size: 0.78rem; color: var(--walnut-soft); }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+    .status-dot.online { background: var(--forest); }
+    .status-dot.offline { background: var(--parchment-line); border: 1px solid var(--walnut-soft); }
+
+    /* ---- Messages panel ---- */
+    #messages {
+      background: var(--parchment-deep);
+      border: 1px solid var(--parchment-line);
+      border-radius: 4px;
+    }
+    #messages::-webkit-scrollbar { width: 6px; }
+    #messages::-webkit-scrollbar-track { background: var(--parchment-deep); }
+    #messages::-webkit-scrollbar-thumb { background: var(--parchment-line); border-radius: 6px; }
+
+    .msg-avatar { border: 1px solid var(--parchment-line); border-radius: 50%; }
+
+    .chat-bubble {
+      font-family: 'Spectral', serif;
+      font-size: 0.95rem;
+      padding: 0.55rem 0.9rem;
+      border-radius: 2px;
+    }
+    .chat-bubble.mine { background: var(--walnut); color: var(--parchment); border-top-right-radius: 10px; border-bottom-left-radius: 10px; }
+    .chat-bubble.theirs { background: var(--parchment); color: var(--ink); border: 1px solid var(--parchment-line); border-top-left-radius: 10px; border-bottom-right-radius: 10px; }
+
+    .msg-time { font-family: 'Inter', sans-serif; font-size: 0.68rem; color: var(--walnut-soft); }
+
+    #empty-prompt { font-family: 'Fraunces', serif; font-style: italic; color: var(--walnut-soft); }
+
+    /* ---- Composer ---- */
+    #chat-form {
+      background: var(--parchment-deep);
+      border: 1px solid var(--parchment-line);
+      border-radius: 4px;
+    }
+    .message-input {
+      background: var(--parchment);
+      border: 1px solid var(--parchment-line);
+      border-radius: 2px;
+      color: var(--ink);
+      font-family: 'Spectral', serif;
+    }
+    .message-input::placeholder { color: rgba(110,86,67,0.55); }
+    .message-input:focus {
+      outline: none;
+      border-color: var(--brass);
+      box-shadow: 0 0 0 3px rgba(169,129,44,0.2);
+    }
+
+    .icon-btn { color: var(--walnut-soft); background: none; border: none; cursor: pointer; transition: color 0.15s ease; }
+    .icon-btn:hover { color: var(--walnut); }
+
+    .icon-smile, .icon-send {
+      display: inline-block; width: 18px; height: 18px;
+      background-color: currentColor;
+      -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+      -webkit-mask-position: center; mask-position: center;
+      -webkit-mask-size: contain; mask-size: contain;
+    }
+    .icon-smile {
+      -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><circle cx='10' cy='10' r='8' fill='none' stroke='black' stroke-width='1.4'/><circle cx='7' cy='8' r='1' fill='black'/><circle cx='13' cy='8' r='1' fill='black'/><path d='M6 12 Q10 15.5 14 12' fill='none' stroke='black' stroke-width='1.3' stroke-linecap='round'/></svg>");
+      mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><circle cx='10' cy='10' r='8' fill='none' stroke='black' stroke-width='1.4'/><circle cx='7' cy='8' r='1' fill='black'/><circle cx='13' cy='8' r='1' fill='black'/><path d='M6 12 Q10 15.5 14 12' fill='none' stroke='black' stroke-width='1.3' stroke-linecap='round'/></svg>");
+    }
+    .icon-send {
+      -webkit-mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><path d='M2 10 L17 3 L11 17 L9 11 Z' fill='black'/></svg>");
+      mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><path d='M2 10 L17 3 L11 17 L9 11 Z' fill='black'/></svg>");
+    }
+
+    .btn-send {
+      background: var(--walnut);
+      color: var(--parchment);
+      border: 1px solid var(--walnut);
+      border-radius: 2px;
+      transition: background-color 0.15s ease, color 0.15s ease;
+    }
+    .btn-send:hover:not(:disabled) { background: transparent; color: var(--walnut); }
+    .btn-send:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-send .icon-send { background-color: currentColor; }
   </style>
 </head>
-<body class="bg-gray-900 text-gray-100">
+<body>
   <!-- Navigation -->
-  <nav class="bg-gray-800 border-b border-gray-700 py-4 px-6">
+  <nav class="site-nav py-4 px-6">
     <div class="max-w-7xl mx-auto flex justify-between items-center">
-      <div class="flex items-center space-x-2">
-        <i class="fas fa-chess-queen text-blue-400 text-2xl"></i>
-        <span class="text-xl font-bold text-indigo-400"><a href="/">ChessLuck Chat</a></span>
+      <div class="flex items-center space-x-2 brand-mark">
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M10 27 L9 22 Q8.5 19 11 17 L11 15 Q6 13.5 6 10.5 Q6 7.5 10.5 6.5 Q10 4.5 12.5 3.2 Q15 2 18 3 Q20.5 3.8 20.5 6.2 Q20.5 8 18.5 9 Q21 10 20.5 12.5 L24 16 Q25 17 24 18.5 L20.5 19 L19.5 27 Z"
+                fill="none" stroke="#3B2A1E" stroke-width="1.3" stroke-linejoin="round"/>
+          <rect x="8" y="27" width="14" height="2.2" fill="none" stroke="#3B2A1E" stroke-width="1.3"/>
+        </svg>
+        <span class="brand-name"><a href="/">ChessLuck Chat</a></span>
       </div>
       <div class="flex space-x-6">
-        <a href="/" class="hover:text-blue-400">Home</a>
-        <a href="/play" class="hover:text-blue-400">Play</a>
-        <a href="/learn" class="hover:text-blue-400">Learn</a>
-        <a href="/friends" class="hover:text-blue-400">Friends</a>
+        <a href="/" class="nav-link">Home</a>
+        <a href="/play" class="nav-link">Play</a>
+        <a href="/learn" class="nav-link">Learn</a>
+        <a href="/friends" class="nav-link">Friends</a>
       </div>
     </div>
   </nav>
@@ -39,16 +161,16 @@
   <!-- Chat Container -->
   <div class="max-w-4xl mx-auto px-4 py-6">
     <!-- Friend Info -->
-    <div class="flex items-center mb-6 p-4 bg-gray-800 rounded-lg">
-      <img src="<%= friend.pfp || '/images/default-pfp.png' %>" class="w-12 h-12 rounded-full border-2 border-blue-500" alt="friend" />
+    <div class="friend-header flex items-center mb-5 p-4">
+      <img src="<%= friend.pfp || '/images/default-pfp.png' %>" class="friend-avatar w-12 h-12" alt="friend" />
       <div class="ml-4">
-        <h3 class="font-bold text-lg"><%= friend.username %></h3>
-        <p class="text-gray-400 text-sm flex items-center gap-2">
+        <h3 class="friend-name"><%= friend.username %></h3>
+        <p class="status-line flex items-center gap-2">
           <% if (friend.status === 'online') { %>
-            <span class="w-2 h-2 rounded-full bg-green-500 inline-block"></span>
+            <span class="status-dot online"></span>
             Online
           <% } else { %>
-            <span class="w-2 h-2 rounded-full bg-gray-500 inline-block"></span>
+            <span class="status-dot offline"></span>
             Offline
           <% } %>
         </p>
@@ -56,42 +178,42 @@
     </div>
 
     <!-- Messages Container -->
-    <div id="messages" class="chat-container overflow-y-auto mb-4 p-4 bg-gray-800 rounded-lg shadow-inner scroll-pb-24">
+    <div id="messages" class="chat-container overflow-y-auto mb-4 p-4 shadow-inner scroll-pb-24">
       <div class="space-y-4" id="message-list">
         <% if (messages && messages.length > 0) { %>
           <% messages.forEach(msg => { %>
             <% const isCurrentUser = msg.sender.toString() === currentUser._id.toString(); %>
             <div class="flex items-start <%= isCurrentUser ? 'justify-end' : '' %>">
               <% if (!isCurrentUser) { %>
-                <img src="<%= friend.pfp || '/images/default-pfp.png' %>" class="w-8 h-8 rounded-full mt-1 mr-3" alt="friend" />
+                <img src="<%= friend.pfp || '/images/default-pfp.png' %>" class="msg-avatar w-8 h-8 mt-1 mr-3" alt="friend" />
               <% } %>
               <div class="<%= isCurrentUser ? 'text-right' : '' %>">
-                <div class="<%= isCurrentUser ? 'bg-blue-600 text-white rounded-l-lg rounded-br-lg' : 'bg-gray-700 text-gray-100 rounded-r-lg rounded-bl-lg' %> px-4 py-2 message-bubble inline-block">
+                <div class="<%= isCurrentUser ? 'chat-bubble mine' : 'chat-bubble theirs' %> message-bubble inline-block">
                   <%= msg.text %>
                 </div>
-                <p class="text-xs text-gray-500 mt-1 <%= isCurrentUser ? 'mr-1' : 'ml-1' %>">
+                <p class="msg-time mt-1 <%= isCurrentUser ? 'mr-1' : 'ml-1' %>">
                   <%= msg.time.toLocaleString ? msg.time.toLocaleString() : msg.time %>
                 </p>
               </div>
               <% if (isCurrentUser) { %>
-                <img src="<%= currentUser.pfp || '/images/default-pfp.png' %>" class="w-8 h-8 rounded-full mt-1 ml-3" alt="You" />
+                <img src="<%= currentUser.pfp || '/images/default-pfp.png' %>" class="msg-avatar w-8 h-8 mt-1 ml-3" alt="You" />
               <% } %>
             </div>
           <% }) %>
         <% } else { %>
-          <p id="empty-prompt" class="text-gray-500 text-center">No messages yet. Start the conversation!</p>
+          <p id="empty-prompt" class="text-center">No messages yet. Start the conversation!</p>
         <% } %>
       </div>
     </div>
 
     <!-- Message Input -->
-    <form id="chat-form" class="flex items-center bg-gray-800 rounded-lg p-3">
-      <button type="button" class="text-gray-400 hover:text-blue-400 p-2 mr-2" aria-label="Add Emoji">
-        <i class="far fa-smile"></i>
+    <form id="chat-form" class="flex items-center p-3">
+      <button type="button" class="icon-btn p-2 mr-2" aria-label="Add Emoji">
+        <span class="icon-smile"></span>
       </button>
-      <input id="message-input" type="text" placeholder="Type your message..." class="message-input flex-grow bg-gray-700 text-white rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none" required />
-      <button type="submit" class="ml-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg px-4 py-2 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed" aria-label="Send Message">
-        <i class="fas fa-paper-plane"></i>
+      <input id="message-input" type="text" placeholder="Type your message..." class="message-input flex-grow px-4 py-2" required />
+      <button type="submit" class="btn-send ml-2 px-4 py-2" aria-label="Send Message">
+        <span class="icon-send"></span>
       </button>
     </form>
   </div>
@@ -139,17 +261,17 @@
 
         const avatar = document.createElement("img");
         avatar.src = isCurrentUser ? currentUser.pfp : friend.pfp;
-        avatar.className = "w-8 h-8 rounded-full mt-1 " + (isCurrentUser ? "ml-3" : "mr-3");
+        avatar.className = "msg-avatar w-8 h-8 mt-1 " + (isCurrentUser ? "ml-3" : "mr-3");
         avatar.alt = isCurrentUser ? "You" : "Friend";
 
         const bubble = document.createElement("div");
         bubble.className = (isCurrentUser
-          ? "bg-blue-600 text-white rounded-l-lg rounded-br-lg"
-          : "bg-gray-700 text-gray-100 rounded-r-lg rounded-bl-lg") + " px-4 py-2 message-bubble inline-block";
+          ? "chat-bubble mine"
+          : "chat-bubble theirs") + " message-bubble inline-block";
         bubble.textContent = text;
 
         const timestamp = document.createElement("p");
-        timestamp.className = "text-xs text-gray-500 mt-1 " + (isCurrentUser ? "mr-1 text-right" : "ml-1");
+        timestamp.className = "msg-time mt-1 " + (isCurrentUser ? "mr-1 text-right" : "ml-1");
         timestamp.textContent = new Date(time).toLocaleString();
 
         const messageBlock = document.createElement("div");

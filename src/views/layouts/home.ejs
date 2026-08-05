@@ -7,68 +7,210 @@
     <title>ChessMaster | Custom Online Chess Platform</title>
     <link rel="icon" type="image/x-icon" href="/images/faveicon.ico">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;0,9..144,700;1,9..144,450&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@500;600&display=swap" rel="stylesheet">
     <style>
-        html {
-            scroll-behavior: smooth;
+        html { scroll-behavior: smooth; }
+
+        :root {
+            --parchment: #F2E8D0;
+            --parchment-deep: #E7D8B0;
+            --parchment-line: #C9B786;
+            --walnut: #3B2A1E;
+            --walnut-soft: #6E5643;
+            --walnut-deep: #2C2018;
+            --ink: #211508;
+            --brass: #A9812C;
+            --brass-bright: #C9A227;
+            --forest: #445640;
         }
 
         @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .animate-pulse-slow { animation: pulse 3s infinite; }
 
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.5;
-            }
+        body {
+            background-color: var(--parchment);
+            background-image: radial-gradient(circle at 1px 1px, rgba(59,42,30,0.07) 1px, transparent 0);
+            background-size: 22px 22px;
+            font-family: 'Spectral', Georgia, serif;
+            color: var(--ink);
         }
 
-        .animate-pulse-slow {
-            animation: pulse 3s infinite;
-        }
+        .font-display { font-family: 'Fraunces', serif; }
+        .font-utility { font-family: 'Inter', sans-serif; }
 
-        .chess-board {
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect x="0" y="0" width="50" height="50" fill="%23374151"/><rect x="50" y="50" width="50" height="50" fill="%23374151"/><rect x="0" y="50" width="50" height="50" fill="%23212a36"/><rect x="50" y="0" width="50" height="50" fill="%23212a36"/></svg>');
-            background-size: 100px 100px;
-        }
+        .piece-hover:hover { transform: translateY(-4px); }
+        .piece-hover { transition: transform 0.2s ease; }
 
-        .piece-hover:hover {
-            transform: translateY(-5px);
-            filter: drop-shadow(0 5px 5px rgba(255, 255, 255, 0.2));
+        /* ---- Nav ---- */
+        nav.site-nav { background-color: var(--parchment-deep); border-bottom: 1px solid var(--parchment-line); }
+        .brand-mark svg { width: 30px; height: 30px; }
+        .brand-name { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.2rem; letter-spacing: 0.01em; color: var(--walnut); }
+        .nav-link {
+            font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.02em;
+            color: var(--walnut-soft); border-bottom: 1px solid transparent; padding-bottom: 2px;
+            transition: color 0.15s ease, border-color 0.15s ease;
         }
+        .nav-link:hover { color: var(--walnut); border-color: var(--brass); }
+        .btn-ghost { font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 600; color: var(--walnut-soft); transition: color 0.15s ease; }
+        .btn-ghost:hover { color: var(--walnut); }
+        .btn-outline {
+            font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.02em;
+            color: var(--walnut); border: 1px solid var(--walnut); padding: 0.55rem 1.1rem; border-radius: 2px;
+            transition: background-color 0.15s ease, color 0.15s ease; display: inline-block;
+        }
+        .btn-outline:hover { background-color: var(--walnut); color: var(--parchment); }
+        .hamburger-icon { width: 20px; height: 14px; position: relative; }
+        .hamburger-icon span { position: absolute; left: 0; width: 100%; height: 1.5px; background: var(--walnut); }
+        .hamburger-icon span:nth-child(1) { top: 0; }
+        .hamburger-icon span:nth-child(2) { top: 6px; }
+        .hamburger-icon span:nth-child(3) { top: 12px; }
 
-        .glow-text {
-            text-shadow: 0 0 8px rgba(59, 130, 246, 0.7);
+        /* ---- Hero ---- */
+        .hero-eyebrow {
+            font-family: 'Inter', sans-serif; font-size: 0.72rem; letter-spacing: 0.24em;
+            text-transform: uppercase; color: var(--brass); margin-bottom: 0.9rem;
         }
+        .hero-title {
+            font-family: 'Fraunces', serif; font-weight: 600; font-size: 3rem; line-height: 1.05;
+            color: var(--walnut); letter-spacing: -0.01em; margin-bottom: 1.25rem;
+        }
+        .hero-title em { font-style: italic; color: var(--brass); font-weight: 500; }
+        .hero-sub { font-size: 1.08rem; color: var(--walnut-soft); max-width: 42ch; line-height: 1.6; margin-bottom: 2rem; }
+
+        .btn-fill {
+            font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.03em;
+            background: var(--walnut); color: var(--parchment); border: 1px solid var(--walnut);
+            padding: 0.85rem 1.5rem; border-radius: 2px; display: inline-flex; align-items: center; gap: 0.5rem;
+            transition: background-color 0.15s ease, color 0.15s ease;
+        }
+        .btn-fill:hover { background: transparent; color: var(--walnut); }
+        .btn-line {
+            font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.03em;
+            background: transparent; color: var(--walnut); border: 1px solid var(--parchment-line);
+            padding: 0.85rem 1.5rem; border-radius: 2px; display: inline-flex; align-items: center; gap: 0.5rem;
+            transition: border-color 0.15s ease, color 0.15s ease;
+        }
+        .btn-line:hover { border-color: var(--brass); color: var(--brass); }
+
+        /* ---- Hero ticket panel ---- */
+        .match-ticket {
+            background: linear-gradient(160deg, var(--walnut-deep) 0%, var(--walnut) 55%, #4A3624 100%);
+            border: 1px solid var(--brass);
+            border-radius: 4px;
+            padding: 2.25rem 1.75rem;
+            position: relative;
+            color: var(--parchment);
+            box-shadow: 0 24px 48px -20px rgba(33,21,8,0.5);
+        }
+        .match-ticket::before, .match-ticket::after {
+            content: ""; position: absolute; width: 14px; height: 14px;
+            background: var(--parchment); border-radius: 50%;
+        }
+        .match-ticket::before { left: -7px; top: 50%; transform: translateY(-50%); }
+        .match-ticket::after { right: -7px; top: 50%; transform: translateY(-50%); }
+        .ticket-pieces { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 1.5rem; }
+        .ticket-pieces svg { width: 34px; height: 34px; }
+        .ticket-rule { border-top: 1px dashed rgba(242,232,208,0.3); margin: 1.25rem 0; }
+        .ticket-row { display: flex; justify-content: space-between; font-family: 'Inter', sans-serif; font-size: 0.72rem; letter-spacing: 0.04em; color: rgba(242,232,208,0.6); text-transform: uppercase; }
+        .ticket-row span:last-child { color: var(--brass-bright); }
+        .ticket-headline { font-family: 'Fraunces', serif; font-style: italic; text-align: center; font-size: 1rem; color: var(--parchment); margin-bottom: 0.25rem; }
+        .live-dot { display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--forest); margin-right:6px; }
+
+        .stamp-badge {
+            position: absolute; bottom: -18px; right: 20px;
+            background: var(--parchment-deep); border: 1px solid var(--brass);
+            border-radius: 4px; padding: 0.6rem 0.9rem;
+            box-shadow: 0 10px 24px -12px rgba(33,21,8,0.4);
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+        .stamp-badge svg { width: 18px; height: 18px; }
+        .stamp-badge span { font-family: 'Inter', sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.02em; color: var(--walnut); }
+
+        /* ---- Section headings ---- */
+        .section-eyebrow {
+            font-family: 'Inter', sans-serif; font-size: 0.72rem; letter-spacing: 0.22em;
+            text-transform: uppercase; color: var(--brass); margin-bottom: 0.6rem;
+        }
+        .section-title { font-family: 'Fraunces', serif; font-weight: 600; font-size: 2.1rem; color: var(--walnut); letter-spacing: -0.01em; }
+
+        /* ---- Features (editorial list, no icon circles) ---- */
+        .feature-row {
+            display: grid; grid-template-columns: 90px 1fr; gap: 1.5rem;
+            padding: 2rem 0; border-top: 1px solid var(--parchment-line);
+        }
+        .feature-row:last-child { border-bottom: 1px solid var(--parchment-line); }
+        .feature-num { font-family: 'Fraunces', serif; font-style: italic; font-size: 2.2rem; color: var(--parchment-line); }
+        .feature-title { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.3rem; color: var(--walnut); margin-bottom: 0.5rem; }
+        .feature-body { color: var(--walnut-soft); max-width: 56ch; line-height: 1.6; }
+
+        /* ---- Game modes ---- */
+        .mode-card {
+            background: var(--parchment-deep); border: 1px solid var(--parchment-line); border-radius: 4px;
+            padding: 1.75rem; transition: border-color 0.2s ease, transform 0.2s ease;
+        }
+        .mode-card:hover { border-color: var(--brass); transform: translateY(-3px); }
+        .mode-letter {
+            font-family: 'Fraunces', serif; font-weight: 600; font-style: italic; font-size: 2.4rem;
+            color: var(--brass); line-height: 1; margin-bottom: 1rem;
+        }
+        .mode-title { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.15rem; color: var(--walnut); margin-bottom: 0.5rem; }
+        .mode-body { font-size: 0.92rem; color: var(--walnut-soft); line-height: 1.5; }
+
+        /* ---- CTA band ---- */
+        .cta-band { background: var(--walnut); color: var(--parchment); }
+        .cta-title { font-family: 'Fraunces', serif; font-weight: 600; font-size: 2.2rem; line-height: 1.15; }
+        .cta-sub { font-family: 'Spectral', serif; color: rgba(242,232,208,0.7); font-size: 1.05rem; margin: 1rem 0 2rem; }
+        .btn-cream {
+            font-family: 'Inter', sans-serif; font-size: 0.88rem; font-weight: 600; letter-spacing: 0.03em;
+            background: var(--parchment); color: var(--walnut); border: 1px solid var(--parchment);
+            padding: 0.9rem 1.75rem; border-radius: 2px; display: inline-flex; align-items: center; gap: 0.6rem;
+            transition: background-color 0.15s ease, color 0.15s ease;
+        }
+        .btn-cream:hover { background: var(--brass-bright); border-color: var(--brass-bright); color: var(--walnut-deep); }
+
+        /* ---- Footer ---- */
+        footer.site-footer { background-color: var(--walnut); color: var(--parchment); border-top: 1px solid var(--brass); }
+        footer .footer-heading { font-family: 'Inter', sans-serif; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brass-bright); }
+        footer a.footer-link { color: rgba(242,232,208,0.75); font-family: 'Spectral', serif; font-size: 0.92rem; transition: color 0.15s ease; }
+        footer a.footer-link:hover { color: var(--brass-bright); }
+        footer .brand-blurb { color: rgba(242,232,208,0.65); font-family: 'Spectral', serif; font-size: 0.92rem; max-width: 32ch; }
+        .social-mark {
+            font-family: 'Inter', sans-serif; font-size: 0.72rem; letter-spacing: 0.08em; color: rgba(242,232,208,0.6);
+            border: 1px solid rgba(242,232,208,0.25); padding: 0.3rem 0.55rem; transition: border-color 0.15s ease, color 0.15s ease;
+        }
+        .social-mark:hover { border-color: var(--brass-bright); color: var(--brass-bright); }
     </style>
 </head>
 
-<body class="bg-gray-900 text-white font-sans min-h-screen flex flex-col scroll-smooth">
+<body class="font-sans min-h-screen flex flex-col scroll-smooth">
     <!-- Navigation -->
-    <nav class="bg-gray-800 border-b border-gray-700 py-4 px-6 sticky top-0 z-50">
+    <nav class="site-nav py-4 px-6 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <i class="fas fa-chess-queen text-blue-400 text-2xl"></i>
-                <span
-                    class="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent hover:text-blue-400 transition">
-                    <a href="http://localhost:5000/">ChessMaster</a></span>
+            <div class="flex items-center space-x-2 brand-mark">
+                <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M10 27 L9 22 Q8.5 19 11 17 L11 15 Q6 13.5 6 10.5 Q6 7.5 10.5 6.5 Q10 4.5 12.5 3.2 Q15 2 18 3 Q20.5 3.8 20.5 6.2 Q20.5 8 18.5 9 Q21 10 20.5 12.5 L24 16 Q25 17 24 18.5 L20.5 19 L19.5 27 Z"
+                          fill="none" stroke="#3B2A1E" stroke-width="1.3" stroke-linejoin="round"/>
+                    <rect x="8" y="27" width="14" height="2.2" fill="none" stroke="#3B2A1E" stroke-width="1.3"/>
+                </svg>
+                <span class="brand-name"><a href="http://localhost:5000/">ChessMaster</a></span>
             </div>
 
-            <div class="hidden md:flex space-x-6">
-                <a href="http://localhost:5000/" class="hover:text-blue-400 transition">Home</a>
-                <a href="http://localhost:5000/learn" class="hover:text-blue-400 transition">Puzzles</a>
-                <a href="http://localhost:5000/learn" class="hover:text-blue-400 transition">Learn</a>
+            <div class="hidden md:flex space-x-8">
+                <a href="http://localhost:5000/" class="nav-link">Home</a>
+                <a href="http://localhost:5000/learn" class="nav-link">Puzzles</a>
+                <a href="http://localhost:5000/learn" class="nav-link">Learn</a>
             </div>
 
-            <div class="flex items-center space-x-4">
-                <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-md transition"><a
-                        href="http://localhost:5000/auth/login">Sign Up</a></button>
-                <button class="hidden md:block bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-md transition"><a
-                        href="http://localhost:5000/auth/login">Log In</a></button>
-                <button class="md:hidden text-xl">
-                    <i class="fas fa-bars"></i>
+            <div class="flex items-center space-x-5">
+                <button class="btn-ghost hidden md:block"><a href="http://localhost:5000/auth/login">Sign Up</a></button>
+                <button class="btn-outline"><a href="http://localhost:5000/auth/login">Log In</a></button>
+                <button class="md:hidden text-xl" aria-label="Open menu">
+                    <span class="hamburger-icon"><span></span><span></span><span></span></span>
                 </button>
             </div>
         </div>
@@ -76,250 +218,195 @@
 
     <!-- Hero Section -->
     <section class="flex-grow">
-        <div class="max-w-7xl mx-auto px-6 py-16 md:py-24 flex flex-col md:flex-row items-center">
-            <div class="md:w-1/2 mb-12 md:mb-0">
-                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                    <span class="glow-text">Master</span> the Game of <span class="text-blue-400">Kings</span>
-                </h1>
-                <p class="text-gray-400 text-lg mb-8 max-w-lg">
-                    Play, learn, and compete on the most customizable chess platform. Challenge players worldwide or
-                    hone your skills with our advanced training tools.
+        <div class="max-w-7xl mx-auto px-6 py-16 md:py-24 grid md:grid-cols-2 gap-16 items-center">
+            <div>
+                <div class="hero-eyebrow">Online Chess, Reconsidered</div>
+                <h1 class="hero-title">A quieter kind<br/>of <em>chess club.</em></h1>
+                <p class="hero-sub">
+                    Rated games against real opponents, sparring partners tuned to your level, and
+                    boards you can actually make your own — without the noise most platforms bury it in.
                 </p>
-                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                    <button
-                        class="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-md font-medium transition transform hover:scale-105">
-                        <a href="http://localhost:5000/play">Play online</a> <i class="fas fa-chess-knight ml-2"></i>
-                    </button>
-                    <button
-                        class="bg-gray-800 hover:bg-gray-700 px-6 py-3 rounded-md font-medium transition transform hover:scale-105">
-                        <a href="http://localhost:5000/learn">Learn Chess</a> <i class="fas fa-graduation-cap ml-2"></i>
-                    </button>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="http://localhost:5000/play" class="btn-fill">Play online</a>
+                    <a href="http://localhost:5000/learn" class="btn-line">Learn chess</a>
                 </div>
                 <div class="mt-8 flex items-center space-x-4">
-                  
                 </div>
             </div>
 
-            <div class="md:w-1/2 relative">
-                <div
-                    class="chess-board rounded-xl overflow-hidden shadow-2xl border-4 border-gray-700 w-full max-w-md mx-auto">
-                    <div class="relative aspect-square">
-                        <!-- Chess pieces would be positioned here -->
-                        <div
-                            class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
-                            <div class="flex space-x-4 mb-4">
-                                <i class="fas fa-chess-king text-white text-3xl piece-hover transition"></i>
-                                <i class="fas fa-chess-queen text-white text-3xl piece-hover transition"></i>
-                                <i class="fas fa-chess-rook text-white text-3xl piece-hover transition"></i>
-                            </div>
-                            <div class="text-center">
-                                <p class="text-gray-300 mb-2">Live game in progress</p>
-                                <div class="flex justify-center space-x-2">
-                                    <span class="w-3 h-3 rounded-full bg-green-500 animate-pulse-slow"></span>
-                                    <span class="text-sm text-gray-400">GM Carlsen vs GM Nakamura</span>
-                                </div>
-                            </div>
-                        </div>
+            <div class="relative">
+                <div class="match-ticket">
+                    <div class="ticket-headline">A game in progress</div>
+                    <div class="ticket-pieces">
+                        <svg class="piece-hover" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M20 4 L20 8 M17 6 L23 6 M13 34 L12 27 Q11.5 23 15 20.5 Q11 18 11 13.5 Q11 7.5 20 5.5 Q29 7.5 29 13.5 Q29 18 25 20.5 Q28.5 23 28 27 L27 34 Z"
+                                  fill="none" stroke="#F2E8D0" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+                            <circle cx="20" cy="14.5" r="2.2" fill="none" stroke="#F2E8D0" stroke-width="1.5"/>
+                        </svg>
+                        <svg class="piece-hover" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M13 34 L12 26 Q11.5 22 15 19.5 Q11 17 11.5 12 L14 6 L17 11 L20 5 L23 11 L26 6 L28.5 12 Q29 17 25 19.5 Q28.5 22 28 26 L27 34 Z"
+                                  fill="none" stroke="#F2E8D0" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+                        </svg>
+                        <svg class="piece-hover" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M14 34 L13.5 20 L12 20 L12 8 L15 8 L15 10 L17.5 10 L17.5 8 L22.5 8 L22.5 10 L25 10 L25 8 L28 8 L28 20 L26.5 20 L26 34 Z"
+                                  fill="none" stroke="#F2E8D0" stroke-width="1.5" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="ticket-rule"></div>
+                    <div class="ticket-row">
+                        <span><span class="live-dot"></span>Board 12</span>
+                        <span>Move 24 &middot; White to play</span>
                     </div>
                 </div>
-                <div class="absolute -bottom-6 -right-6 bg-gray-800 p-4 rounded-lg shadow-lg hidden md:block">
-                    <div class="flex items-center space-x-2">
-                        <i class="fas fa-trophy text-yellow-400"></i>
-                        <span class="font-medium">Tournament Live</span>
-                    </div>
+                <div class="stamp-badge">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <circle cx="12" cy="9" r="6" fill="none" stroke="#A9812C" stroke-width="1.3"/>
+                        <path d="M9 14 L7 21 L12 18.5 L17 21 L15 14" fill="none" stroke="#A9812C" stroke-width="1.3" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Club tournament live</span>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Features Section -->
-    <section class="bg-gray-800 py-16">
-        <div class="max-w-7xl mx-auto px-6">
-            <h2 class="text-3xl font-bold text-center mb-12">Why Choose <span class="text-blue-400">ChessMaster</span>
-            </h2>
+    <section class="py-20" style="background: var(--parchment-deep); border-top: 1px solid var(--parchment-line); border-bottom: 1px solid var(--parchment-line);">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="section-eyebrow">Why ChessMaster</div>
+            <h2 class="section-title mb-8">Built by people who actually play.</h2>
 
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-gray-700 p-6 rounded-xl hover:bg-gray-600 transition">
-                    <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mb-4">
-                        <i class="fas fa-cogs text-xl"></i>
+            <div>
+                <div class="feature-row">
+                    <div class="feature-num">01</div>
+                    <div>
+                        <div class="feature-title">Set the board your way</div>
+                        <p class="feature-body">Custom boards, piece sets, and themes — pick what feels right and the game gets out of its own way.</p>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3">Fully Customizable</h3>
-                    <p class="text-gray-400">Personalize your chess experience with custom boards, pieces, and themes to
-                        match your style.</p>
                 </div>
-
-                <div class="bg-gray-700 p-6 rounded-xl hover:bg-gray-600 transition">
-                    <div class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center mb-4">
-                        <i class="fas fa-robot text-xl"></i>
+                <div class="feature-row">
+                    <div class="feature-num">02</div>
+                    <div>
+                        <div class="feature-title">Sparring partners, dialed to you</div>
+                        <p class="feature-body">Train against an engine with adjustable strength, from someone learning the rules to a genuine grandmaster-level challenge.</p>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3">AI Opponents</h3>
-                    <p class="text-gray-400">Train against our advanced chess AI with adjustable difficulty levels from
-                        beginner to grandmaster.</p>
                 </div>
-
-                <div class="bg-gray-700 p-6 rounded-xl hover:bg-gray-600 transition">
-                    <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center mb-4">
-                        <i class="fas fa-users text-xl"></i>
+                <div class="feature-row">
+                    <div class="feature-num">03</div>
+                    <div>
+                        <div class="feature-title">A community worth returning to</div>
+                        <p class="feature-body">Clubs, tournaments, and opponents who remember your last game — chess is better with people who take it as seriously as you do.</p>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3">Vibrant Community</h3>
-                    <p class="text-gray-400">Join tournaments, create clubs, and connect with chess enthusiasts from
-                        around the world.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Game Modes Section -->
-    <section class="py-16">
+    <section class="py-20">
         <div class="max-w-7xl mx-auto px-6">
-            <h2 class="text-3xl font-bold text-center mb-12">Explore <span class="text-blue-400">Game Modes</span></h2>
+            <div class="section-eyebrow">Formats</div>
+            <h2 class="section-title mb-12">Explore game modes.</h2>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div
-                    class="bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:border-blue-400 transition group">
-                    <div class="h-40 bg-gradient-to-br from-blue-900 to-blue-600 flex items-center justify-center">
-                        <i class="fas fa-bolt text-5xl text-white opacity-80 group-hover:opacity-100 transition"></i>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Blitz</h3>
-                        <p class="text-gray-400">Fast-paced games (3-5 minutes) for quick thinking and rapid decisions.
-                        </p>
-                    </div>
+                <div class="mode-card">
+                    <div class="mode-letter">B</div>
+                    <h3 class="mode-title">Blitz</h3>
+                    <p class="mode-body">Fast games, three to five minutes a side — quick thinking, rapid decisions.</p>
                 </div>
 
-                <div
-                    class="bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:border-purple-400 transition group">
-                    <div class="h-40 bg-gradient-to-br from-purple-900 to-purple-600 flex items-center justify-center">
-                        <i class="fas fa-clock text-5xl text-white opacity-80 group-hover:opacity-100 transition"></i>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Classical</h3>
-                        <p class="text-gray-400">Traditional time controls (30+ minutes) for deep strategic play.</p>
-                    </div>
+                <div class="mode-card">
+                    <div class="mode-letter">C</div>
+                    <h3 class="mode-title">Classical</h3>
+                    <p class="mode-body">Traditional time controls of thirty minutes or more, for deep strategic play.</p>
                 </div>
 
-                <div
-                    class="bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:border-green-400 transition group">
-                    <div class="h-40 bg-gradient-to-br from-green-900 to-green-600 flex items-center justify-center">
-                        <i
-                            class="fas fa-puzzle-piece text-5xl text-white opacity-80 group-hover:opacity-100 transition"></i>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Puzzles</h3>
-                        <p class="text-gray-400">Solve tactical puzzles to sharpen your skills and pattern recognition.
-                        </p>
-                    </div>
+                <div class="mode-card">
+                    <div class="mode-letter">P</div>
+                    <h3 class="mode-title">Puzzles</h3>
+                    <p class="mode-body">Tactical positions to sharpen calculation and pattern recognition.</p>
                 </div>
 
-                <div
-                    class="bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:border-yellow-400 transition group">
-                    <div class="h-40 bg-gradient-to-br from-yellow-900 to-yellow-600 flex items-center justify-center">
-                        <i class="fas fa-random text-5xl text-white opacity-80 group-hover:opacity-100 transition"></i>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Variants</h3>
-                        <p class="text-gray-400">Try Chess960, King of the Hill, and other exciting rule variations.</p>
-                    </div>
+                <div class="mode-card">
+                    <div class="mode-letter">V</div>
+                    <h3 class="mode-title">Variants</h3>
+                    <p class="mode-body">Chess960, King of the Hill, and other rule sets worth trying at least once.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- CTA Section -->
-    <section class="bg-gradient-to-r from-blue-900 to-purple-900 py-16">
-        <div class="max-w-4xl mx-auto px-6 text-center">
-            <h2 class="text-3xl md:text-4xl font-bold mb-6">Ready to <span class="text-yellow-300">Elevate</span> Your
-                Chess Game?</h2>
-            <p class="text-xl text-blue-200 mb-8">Join thousands of players improving their skills and having fun every
-                day.</p>
-            <button
-                class="bg-white text-gray-900 hover:bg-gray-200 px-8 py-4 rounded-md font-bold text-lg transition transform hover:scale-105 shadow-lg">
-                <a href="http://localhost:5000/login">Create Free Account</a> <i class="fas fa-arrow-right ml-2"></i>
-            </button>
+    <section class="cta-band py-16">
+        <div class="max-w-3xl mx-auto px-6 text-center">
+            <h2 class="cta-title">Your first game is one click away.</h2>
+            <p class="cta-sub">No trial period, no upsell — just a board and an opponent waiting.</p>
+            <a href="http://localhost:5000/login" class="btn-cream">Create free account <span aria-hidden="true">&rarr;</span></a>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 border-t border-gray-700 py-12">
+    <footer class="site-footer py-12">
         <div class="max-w-7xl mx-auto px-6">
-            <div class="grid md:grid-cols-4 gap-8">
+            <div class="grid md:grid-cols-4 gap-10">
                 <div>
                     <div class="flex items-center space-x-2 mb-4">
-                        <i class="fas fa-chess-queen text-blue-400 text-2xl"></i>
-                        <span class="text-xl font-bold">ChessMaster</span>
+                        <svg viewBox="0 0 32 32" width="24" height="24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M10 27 L9 22 Q8.5 19 11 17 L11 15 Q6 13.5 6 10.5 Q6 7.5 10.5 6.5 Q10 4.5 12.5 3.2 Q15 2 18 3 Q20.5 3.8 20.5 6.2 Q20.5 8 18.5 9 Q21 10 20.5 12.5 L24 16 Q25 17 24 18.5 L20.5 19 L19.5 27 Z"
+                                  fill="none" stroke="#C9A227" stroke-width="1.3" stroke-linejoin="round"/>
+                            <rect x="8" y="27" width="14" height="2.2" fill="none" stroke="#C9A227" stroke-width="1.3"/>
+                        </svg>
+                        <span class="font-display font-semibold text-lg">ChessMaster</span>
                     </div>
-                    <p class="text-gray-400">The ultimate platform for chess enthusiasts. Play, learn, and master the
-                        royal game.</p>
-                    <div class="flex space-x-4 mt-6">
-                        <a href="http://localhost:5000/about" class="text-gray-400 hover:text-blue-400 transition"><i
-                                class="fab fa-twitter text-xl"></i></a>
-                        <a href="http://localhost:5000/about" class="text-gray-400 hover:text-blue-400 transition"><i
-                                class="fab fa-facebook text-xl"></i></a>
-                        <a href="http://localhost:5000/about" class="text-gray-400 hover:text-blue-400 transition"><i
-                                class="fab fa-instagram text-xl"></i></a>
-                        <a href="http://localhost:5000/about" class="text-gray-400 hover:text-blue-400 transition"><i
-                                class="fab fa-youtube text-xl"></i></a>
+                    <p class="brand-blurb">A quieter place to play. Rated games, real lessons, and a
+                        board that stays out of the way.</p>
+                    <div class="flex space-x-2 mt-6">
+                        <a href="http://localhost:5000/about" class="social-mark">X</a>
+                        <a href="http://localhost:5000/about" class="social-mark">FB</a>
+                        <a href="http://localhost:5000/about" class="social-mark">IG</a>
+                        <a href="http://localhost:5000/about" class="social-mark">YT</a>
                     </div>
                 </div>
 
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Play</h3>
+                    <h3 class="footer-heading mb-4">Play</h3>
                     <ul class="space-y-2">
-                        <li><a href="http://localhost:5000/play"
-                                class="text-gray-400 hover:text-blue-400 transition">Live Chess</a></li>
-                        <li><a href="http://localhost:5000/learn"
-                                class="text-gray-400 hover:text-blue-400 transition">Computer</a></li>
-                        <li><a href="http://localhost:5000/friends"
-                                class="text-gray-400 hover:text-blue-400 transition">Friends</a></li>
-                        <li><a href="http://localhost:5000/learn"
-                                class="text-gray-400 hover:text-blue-400 transition">Tournaments</a></li>
-                        <li><a href="http://localhost:5000/learn"
-                                class="text-gray-400 hover:text-blue-400 transition">Variants</a></li>
+                        <li><a href="http://localhost:5000/play" class="footer-link">Live Chess</a></li>
+                        <li><a href="http://localhost:5000/learn" class="footer-link">Computer</a></li>
+                        <li><a href="http://localhost:5000/friends" class="footer-link">Friends</a></li>
+                        <li><a href="http://localhost:5000/learn" class="footer-link">Tournaments</a></li>
+                        <li><a href="http://localhost:5000/learn" class="footer-link">Variants</a></li>
                     </ul>
                 </div>
 
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Learn</h3>
+                    <h3 class="footer-heading mb-4">Learn</h3>
                     <ul class="space-y-2">
-                        <li><a href="http://localhost:5000/learn"
-                                class="text-gray-400 hover:text-blue-400 transition">Lessons</a></li>
-                        <li><a href="http://localhost:5000/learn"
-                                class="text-gray-400 hover:text-blue-400 transition">Puzzles</a></li>
-                        <li><a href="http://localhost:5000/learn"
-                                class="text-gray-400 hover:text-blue-400 transition">Practice</a></li>
-                        <li><a href="http://localhost:5000/learn"
-                                class="text-gray-400 hover:text-blue-400 transition">Analysis</a></li>
-                        <li><a href="http://localhost:5000/learn"
-                                class="text-gray-400 hover:text-blue-400 transition">Opening Explorer</a></li>
+                        <li><a href="http://localhost:5000/learn" class="footer-link">Lessons</a></li>
+                        <li><a href="http://localhost:5000/learn" class="footer-link">Puzzles</a></li>
+                        <li><a href="http://localhost:5000/learn" class="footer-link">Practice</a></li>
+                        <li><a href="http://localhost:5000/learn" class="footer-link">Analysis</a></li>
+                        <li><a href="http://localhost:5000/learn" class="footer-link">Opening Explorer</a></li>
                     </ul>
                 </div>
 
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Company</h3>
+                    <h3 class="footer-heading mb-4">Company</h3>
                     <ul class="space-y-2">
-                        <li><a href="http://localhost:5000/about"
-                                class="text-gray-400 hover:text-blue-400 transition">About</a></li>
-                        <li><a href="http://localhost:5000/about"
-                                class="text-gray-400 hover:text-blue-400 transition">Careers</a></li>
-                        <li><a href="http://localhost:5000/about"
-                                class="text-gray-400 hover:text-blue-400 transition">Blog</a></li>
-                        <li><a href="http://localhost:5000/about"
-                                class="text-gray-400 hover:text-blue-400 transition">Help</a></li>
-                        <li><a href="http://localhost:5000/about"
-                                class="text-gray-400 hover:text-blue-400 transition">Contact</a></li>
+                        <li><a href="http://localhost:5000/about" class="footer-link">About</a></li>
+                        <li><a href="http://localhost:5000/about" class="footer-link">Careers</a></li>
+                        <li><a href="http://localhost:5000/about" class="footer-link">Blog</a></li>
+                        <li><a href="http://localhost:5000/about" class="footer-link">Help</a></li>
+                        <li><a href="http://localhost:5000/about" class="footer-link">Contact</a></li>
                     </ul>
                 </div>
             </div>
 
-            <div class="border-t border-gray-700 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-                <p class="text-gray-500 text-sm mb-4 md:mb-0">© 2023 ChessMaster. All rights reserved.</p>
+            <div class="mt-12 pt-8 flex flex-col md:flex-row justify-between items-center" style="border-top: 1px solid rgba(242,232,208,0.15);">
+                <p class="text-sm mb-4 md:mb-0" style="color: rgba(242,232,208,0.5);">© 2026 ChessMaster. All rights reserved.</p>
                 <div class="flex space-x-6">
-                    <a href="http://localhost:5000/about"
-                        class="text-gray-500 hover:text-blue-400 text-sm transition">Privacy Policy</a>
-                    <a href="http://localhost:5000/about"
-                        class="text-gray-500 hover:text-blue-400 text-sm transition">Terms of Service</a>
-                    <a href="http://localhost:5000/about"
-                        class="text-gray-500 hover:text-blue-400 text-sm transition">Cookies</a>
+                    <a href="http://localhost:5000/about" class="text-sm footer-link">Privacy Policy</a>
+                    <a href="http://localhost:5000/about" class="text-sm footer-link">Terms of Service</a>
+                    <a href="http://localhost:5000/about" class="text-sm footer-link">Cookies</a>
                 </div>
             </div>
         </div>

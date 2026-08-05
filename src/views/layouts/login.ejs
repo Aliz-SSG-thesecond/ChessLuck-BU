@@ -7,68 +7,300 @@
         <title>ChessMaster | Custom Online Chess Platform</title>
         <link rel="icon" type="image/x-icon" href="/images/faveicon.ico">
         <script src="https://cdn.tailwindcss.com"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;0,9..144,700;1,9..144,450&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@500;600&display=swap" rel="stylesheet">
         <style>
-            html {
-                scroll-behavior: smooth;
+            html { scroll-behavior: smooth; }
+
+            :root {
+                --parchment: #F2E8D0;
+                --parchment-deep: #E7D8B0;
+                --parchment-line: #C9B786;
+                --walnut: #3B2A1E;
+                --walnut-soft: #6E5643;
+                --ink: #211508;
+                --brass: #A9812C;
+                --brass-bright: #C9A227;
+                --forest: #445640;
             }
 
-            @keyframes pulse {
-
-                0%,
-                100% {
-                    opacity: 1;
-                }
-
-                50% {
-                    opacity: 0.5;
-                }
+            body {
+                background-color: var(--parchment);
+                background-image: radial-gradient(circle at 1px 1px, rgba(59,42,30,0.07) 1px, transparent 0);
+                background-size: 22px 22px;
+                font-family: 'Spectral', Georgia, serif;
+                color: var(--ink);
             }
 
-            .animate-pulse-slow {
-                animation: pulse 3s infinite;
+            .font-display { font-family: 'Fraunces', serif; }
+            .font-utility { font-family: 'Inter', sans-serif; }
+
+            /* ---- Nav ---- */
+            nav.site-nav {
+                background-color: var(--parchment-deep);
+                border-bottom: 1px solid var(--parchment-line);
+            }
+            .brand-mark svg { width: 30px; height: 30px; }
+            .brand-name {
+                font-family: 'Fraunces', serif;
+                font-weight: 600;
+                font-size: 1.2rem;
+                letter-spacing: 0.01em;
+                color: var(--walnut);
+            }
+            .nav-link {
+                font-family: 'Inter', sans-serif;
+                font-size: 0.82rem;
+                font-weight: 500;
+                letter-spacing: 0.02em;
+                color: var(--walnut-soft);
+                border-bottom: 1px solid transparent;
+                padding-bottom: 2px;
+                transition: color 0.15s ease, border-color 0.15s ease;
+            }
+            .nav-link:hover { color: var(--walnut); border-color: var(--brass); }
+            .btn-ghost {
+                font-family: 'Inter', sans-serif;
+                font-size: 0.82rem;
+                font-weight: 600;
+                color: var(--walnut-soft);
+                transition: color 0.15s ease;
+            }
+            .btn-ghost:hover { color: var(--walnut); }
+            .btn-outline {
+                font-family: 'Inter', sans-serif;
+                font-size: 0.82rem;
+                font-weight: 600;
+                letter-spacing: 0.02em;
+                color: var(--walnut);
+                border: 1px solid var(--walnut);
+                padding: 0.55rem 1.1rem;
+                border-radius: 2px;
+                transition: background-color 0.15s ease, color 0.15s ease;
+                display: inline-block;
+            }
+            .btn-outline:hover { background-color: var(--walnut); color: var(--parchment); }
+            .hamburger-icon { width: 20px; height: 14px; position: relative; }
+            .hamburger-icon span { position: absolute; left: 0; width: 100%; height: 1.5px; background: var(--walnut); }
+            .hamburger-icon span:nth-child(1) { top: 0; }
+            .hamburger-icon span:nth-child(2) { top: 6px; }
+            .hamburger-icon span:nth-child(3) { top: 12px; }
+
+            /* ---- Auth card ---- */
+            .auth-card {
+                display: grid;
+                grid-template-columns: 0.85fr 1.15fr;
+                background: var(--parchment-deep);
+                border: 1px solid var(--parchment-line);
+                box-shadow: 0 24px 48px -24px rgba(33, 21, 8, 0.45);
+                position: relative;
+                overflow: hidden;
+                width: 100%;
+                max-width: 780px;
+            }
+            .auth-card::before {
+                content: "";
+                position: absolute;
+                inset: 8px;
+                border: 1px solid rgba(169,129,44,0.35);
+                pointer-events: none;
+                z-index: 1;
             }
 
-            .chess-board {
-                background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect x="0" y="0" width="50" height="50" fill="%23374151"/><rect x="50" y="50" width="50" height="50" fill="%23374151"/><rect x="0" y="50" width="50" height="50" fill="%23212a36"/><rect x="50" y="0" width="50" height="50" fill="%23212a36"/></svg>');
-                background-size: 100px 100px;
+            .panel-illustration {
+                background: linear-gradient(160deg, #2C2018 0%, #3B2A1E 55%, #4A3624 100%);
+                position: relative;
+                padding: 2.25rem 1.5rem;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                color: var(--parchment);
+                overflow: hidden;
+            }
+            .panel-illustration::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background-image: repeating-linear-gradient(115deg, rgba(255,255,255,0.025) 0px, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 5px);
+                pointer-events: none;
+            }
+            .eyebrow-vertical {
+                writing-mode: vertical-rl;
+                transform: rotate(180deg);
+                font-family: 'Inter', sans-serif;
+                font-size: 0.66rem;
+                letter-spacing: 0.26em;
+                font-weight: 600;
+                color: var(--brass-bright);
+                text-transform: uppercase;
+                z-index: 1;
+                margin: 0 auto;
+            }
+            .knight-figure { position: relative; z-index: 1; margin: 1rem auto; width: 92px; }
+            .knight-figure svg { width: 100%; height: auto; display: block; }
+            .panel-illustration .caption {
+                font-family: 'Fraunces', serif;
+                font-style: italic;
+                font-size: 0.85rem;
+                color: rgba(242,232,208,0.55);
+                text-align: center;
+                z-index: 1;
+                line-height: 1.4;
             }
 
-            .piece-hover:hover {
-                transform: translateY(-5px);
-                filter: drop-shadow(0 5px 5px rgba(255, 255, 255, 0.2));
+            /* ---- Form side ---- */
+            .panel-auth { background: var(--parchment); position: relative; z-index: 1; }
+
+            .tab-row { display: flex; border-bottom: 1px solid var(--parchment-line); }
+            .tab-btn {
+                flex: 1;
+                padding: 1.1rem 1.5rem;
+                text-align: center;
+                font-family: 'Inter', sans-serif;
+                font-size: 0.82rem;
+                font-weight: 600;
+                letter-spacing: 0.04em;
+                text-transform: uppercase;
+                background: none;
+                cursor: pointer;
+                border: none;
+                border-bottom: 2px solid transparent;
+                transition: color 0.15s ease, border-color 0.15s ease;
+            }
+            .tab-color-active { color: var(--walnut); }
+            .tab-border-active { border-bottom-color: var(--brass); }
+            .tab-color-inactive { color: var(--walnut-soft); }
+            .tab-btn:hover { color: var(--walnut); }
+
+            .auth-form-wrap { padding: 2.25rem 2.25rem 2rem; }
+
+            label {
+                display: block;
+                font-family: 'Inter', sans-serif;
+                font-size: 0.72rem;
+                letter-spacing: 0.06em;
+                text-transform: uppercase;
+                color: var(--walnut-soft);
+                margin-bottom: 0.5rem;
+            }
+            .input-field {
+                width: 100%;
+                padding: 0.75rem 0.9rem;
+                background: var(--parchment);
+                border: 1px solid var(--parchment-line);
+                border-radius: 2px;
+                color: var(--ink);
+                font-family: 'Spectral', serif;
+                font-size: 0.96rem;
+            }
+            .input-field::placeholder { color: rgba(110, 86, 67, 0.55); }
+            .input-field:focus {
+                outline: none;
+                border-color: var(--brass);
+                box-shadow: 0 0 0 3px rgba(169, 129, 44, 0.22);
             }
 
-            .glow-text {
-                text-shadow: 0 0 8px rgba(59, 130, 246, 0.7);
+            .btn-primary {
+                width: 100%;
+                font-family: 'Inter', sans-serif;
+                font-size: 0.85rem;
+                font-weight: 600;
+                letter-spacing: 0.03em;
+                cursor: pointer;
+                padding: 0.85rem 1rem;
+                border-radius: 2px;
+                border: 1px solid var(--walnut);
+                background: var(--walnut);
+                color: var(--parchment);
+                transition: background-color 0.15s ease, color 0.15s ease;
+            }
+            .btn-primary:hover { background: transparent; color: var(--walnut); }
+            .btn-primary:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+
+            .recovery-note {
+                margin-top: 1.5rem;
+                text-align: center;
+                font-family: 'Inter', sans-serif;
+                font-size: 0.82rem;
+                color: var(--walnut-soft);
+            }
+            .recovery-note a, .recovery-note button {
+                background: none;
+                border: none;
+                cursor: pointer;
+                color: var(--walnut);
+                font-weight: 600;
+                font-family: inherit;
+                font-size: inherit;
+                border-bottom: 1px solid var(--brass);
+                padding: 0;
+            }
+            .recovery-note a:hover, .recovery-note button:hover { color: var(--brass); }
+
+            /* ---- Footer ---- */
+            footer.site-footer { background-color: var(--walnut); color: var(--parchment); border-top: 1px solid var(--brass); }
+            footer .footer-heading {
+                font-family: 'Inter', sans-serif;
+                font-size: 0.72rem;
+                letter-spacing: 0.14em;
+                text-transform: uppercase;
+                color: var(--brass-bright);
+            }
+            footer a.footer-link {
+                color: rgba(242,232,208,0.75);
+                font-family: 'Spectral', serif;
+                font-size: 0.92rem;
+                transition: color 0.15s ease;
+            }
+            footer a.footer-link:hover { color: var(--brass-bright); }
+            footer .brand-blurb { color: rgba(242,232,208,0.65); font-family: 'Spectral', serif; font-size: 0.92rem; max-width: 32ch; }
+            .social-mark {
+                font-family: 'Inter', sans-serif;
+                font-size: 0.72rem;
+                letter-spacing: 0.08em;
+                color: rgba(242,232,208,0.6);
+                border: 1px solid rgba(242,232,208,0.25);
+                padding: 0.3rem 0.55rem;
+                transition: border-color 0.15s ease, color 0.15s ease;
+            }
+            .social-mark:hover { border-color: var(--brass-bright); color: var(--brass-bright); }
+
+            @media (max-width: 640px) {
+                .auth-card { grid-template-columns: 1fr; }
+                .panel-illustration { flex-direction: row; justify-content: center; gap: 1rem; padding: 1.25rem; }
+                .eyebrow-vertical { writing-mode: horizontal-tb; transform: none; margin: 0; }
+                .knight-figure { width: 52px; margin: 0; }
+                .panel-illustration .caption { display: none; }
+                .auth-form-wrap { padding: 1.75rem 1.5rem; }
             }
         </style>
     </head>
 
-    <body class="bg-gray-900 text-gray-100 font-sans min-h-screen flex flex-col scroll-smooth">
+    <body class="min-h-screen flex flex-col">
         <!-- Navigation -->
-        <nav class="bg-gray-800 border-b border-gray-700 py-4 px-6 sticky top-0 z-50">
+        <nav class="site-nav py-4 px-6 sticky top-0 z-50">
             <div class="max-w-7xl mx-auto flex justify-between items-center">
-                <div class="flex items-center space-x-2">
-                    <i class="fas fa-chess-queen text-blue-400 text-2xl"></i>
-                    <span
-                        class="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent hover:text-blue-400 transition">
-                        <a href="http://localhost:5000/">ChessMaster</a></span>
+                <div class="flex items-center space-x-2 brand-mark">
+                    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M10 27 L9 22 Q8.5 19 11 17 L11 15 Q6 13.5 6 10.5 Q6 7.5 10.5 6.5 Q10 4.5 12.5 3.2 Q15 2 18 3 Q20.5 3.8 20.5 6.2 Q20.5 8 18.5 9 Q21 10 20.5 12.5 L24 16 Q25 17 24 18.5 L20.5 19 L19.5 27 Z"
+                              fill="none" stroke="#3B2A1E" stroke-width="1.3" stroke-linejoin="round"/>
+                        <rect x="8" y="27" width="14" height="2.2" fill="none" stroke="#3B2A1E" stroke-width="1.3"/>
+                    </svg>
+                    <span class="brand-name"><a href="http://localhost:5000/">ChessMaster</a></span>
                 </div>
 
-                <div class="hidden md:flex space-x-6">
-                    <a href="http://localhost:5000/" class="hover:text-blue-400 transition">Home</a>
-                    <a href="http://localhost:5000/learn" class="hover:text-blue-400 transition">Puzzles</a>
-                    <a href="http://localhost:5000/learn" class="hover:text-blue-400 transition">Learn</a>
+                <div class="hidden md:flex space-x-8">
+                    <a href="http://localhost:5000/" class="nav-link">Home</a>
+                    <a href="http://localhost:5000/learn" class="nav-link">Puzzles</a>
+                    <a href="http://localhost:5000/learn" class="nav-link">Learn</a>
                 </div>
 
-                <div class="flex items-center space-x-4">
-                    <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-md transition"><a
-                            href="http://localhost:5000/login">Sign up</a></button>
-                    <button class="hidden md:block bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-md transition"><a
-                            href="http://localhost:5000/login">Log In</a></button>
-                    <button class="md:hidden text-xl">
-                        <i class="fas fa-bars"></i>
+                <div class="flex items-center space-x-5">
+                    <button class="btn-ghost hidden md:block"><a href="http://localhost:5000/login">Sign up</a></button>
+                    <button class="btn-outline"><a href="http://localhost:5000/login">Log In</a></button>
+                    <button class="md:hidden text-xl" aria-label="Open menu">
+                        <span class="hamburger-icon"><span></span><span></span><span></span></span>
                     </button>
                 </div>
             </div>
@@ -76,170 +308,163 @@
 
         <!-- Auth Forms Section -->
         <section class="flex-grow flex items-center justify-center p-6">
-            <div class="w-full max-w-md bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-700">
-                <!-- Tabs -->
-                <div class="flex border-b border-gray-700">
-                    <button id="login-tab"
-                        class="flex-1 py-4 px-6 text-center font-medium text-blue-400 border-b-2 border-blue-400 hover:text-blue-400 transition">
-                        Login
-                    </button>
-                    <button id="signup-tab"
-                        class="flex-1 py-4 px-6 text-center font-medium text-gray-400 border-b-2 hover:text-blue-400 transition">
-                        SignUp
-                    </button>
+            <div class="auth-card">
+
+                <!-- Left: illustration -->
+                <div class="panel-illustration">
+                    <div class="eyebrow-vertical">Welcome &middot; Back</div>
+                    <div class="knight-figure" aria-hidden="true">
+                        <svg viewBox="0 0 100 130" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <pattern id="hatch4" width="4" height="4" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+                                    <line x1="0" y1="0" x2="0" y2="4" stroke="#C9A227" stroke-width="0.6" opacity="0.55"/>
+                                </pattern>
+                            </defs>
+                            <path d="M30 122 L28 108 Q26 96 34 88 L34 82 Q22 78 22 64 Q22 50 34 42 Q32 34 40 26 Q46 18 58 18 Q70 18 74 30 Q78 40 70 46 Q78 52 76 62 L86 74 Q90 78 86 84 L74 86 L70 122 Z"
+                                fill="url(#hatch4)" stroke="#F2E8D0" stroke-width="1.4" stroke-linejoin="round"/>
+                            <path d="M30 122 L28 108 Q26 96 34 88 L34 82 Q22 78 22 64 Q22 50 34 42 Q32 34 40 26 Q46 18 58 18 Q70 18 74 30 Q78 40 70 46 Q78 52 76 62 L86 74 Q90 78 86 84 L74 86 L70 122 Z"
+                                fill="none" stroke="#F2E8D0" stroke-width="1.6" stroke-linejoin="round"/>
+                            <circle cx="52" cy="34" r="2" fill="#F2E8D0"/>
+                            <rect x="18" y="120" width="56" height="6" fill="none" stroke="#F2E8D0" stroke-width="1.4"/>
+                        </svg>
+                    </div>
+                    <p class="caption">The board is set.<br/>Take your seat.</p>
                 </div>
 
-                <!-- Login Form -->
-                <div id="login-form" class="p-8">
-                    <form action="/auth/login" method="POST">
-
-                        <div class="mb-6">
-                            <label for="login-username"
-                                class="block text-sm font-medium text-gray-300 mb-2">Username</label>
-                            <input type="text" id="login-username" name="username"
-                                class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-white"
-                                placeholder="username" required>
-                        </div>
-                        <div class="mb-6">
-                            <label for="login-password"
-                                class="block text-sm font-medium text-gray-300 mb-2">Password</label>
-                            <input type="password" id="login-password" name="password"
-                                class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-white"
-                                placeholder="••••••••" required>
-                        </div>
-                        <button type="submit"
-                            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition duration-200">
-                            LogIn
+                <!-- Right: tabs + forms -->
+                <div class="panel-auth">
+                    <!-- Tabs -->
+                    <div class="tab-row">
+                        <button id="login-tab" class="tab-btn tab-color-active tab-border-active">
+                            Login
                         </button>
+                        <button id="signup-tab" class="tab-btn tab-color-inactive">
+                            SignUp
+                        </button>
+                    </div>
+
+                    <!-- Login Form -->
+                    <div id="login-form" class="auth-form-wrap">
+                        <form action="/auth/login" method="POST">
+
+                            <div class="mb-5">
+                                <label for="login-username">Username</label>
+                                <input type="text" id="login-username" name="username"
+                                    class="input-field"
+                                    placeholder="username" required>
+                            </div>
+                            <div class="mb-6">
+                                <label for="login-password">Password</label>
+                                <input type="password" id="login-password" name="password"
+                                    class="input-field"
+                                    placeholder="••••••••" required>
+                            </div>
+                            <button type="submit" class="btn-primary">
+                                LogIn
+                            </button>
+                        </form>
+                        <div class="recovery-note">
+                            Forgot your password? <button id="recovery"><a href="/auth/recovery">Recover password</a></button>
+                        </div>
+                    </div>
+
+                    <!-- Signup Form (hidden by default) -->
+                    <form action="/auth/signup" method="POST">
+                        <div id="signup-form" class="auth-form-wrap hidden">
+
+                            <div class="mb-5">
+                                <label for="signup-username">Username</label>
+                                <input type="text" id="signup-username" name="username"
+                                    class="input-field"
+                                    placeholder="username" required>
+                            </div>
+                            <div class="mb-5">
+                                <label for="signup-email">Email Address</label>
+                                <input type="text" id="signup-email" name="email"
+                                    class="input-field"
+                                    placeholder="*****@*****.com" required>
+                            </div>
+                            <div class="mb-6">
+                                <label for="signup-password">Password</label>
+                                <input type="password" id="signup-password" name="password"
+                                    class="input-field"
+                                    placeholder="••••••••" required>
+                            </div>
+                            <button type="submit" class="btn-primary">
+                                Create Account
+                            </button>
                     </form>
-                    <div class="mt-6 text-center text-sm text-gray-400">
-                        Forgot your password? <button id="recovery" class="text-blue-400 hover:underline"><a href="/auth/recovery">Recover password</a></button>
+                    <!-- <div class="mt-6 text-center text-sm text-gray-400">
+                        forgot your password? <button id="switch-to-login" class="text-blue-400 hover:underline">recover password</button>
                     </div>
                 </div>
-
-                <!-- Signup Form (hidden by default) -->
-                <form action="/auth/signup" method="POST">
-                    <div id="signup-form" class="p-8 hidden">
-
-                        <div class="mb-6">
-                            <label for="signup-username"
-                                class="block text-sm font-medium text-gray-300 mb-2">Username</label>
-                            <input type="text" id="signup-username" name="username"
-                                class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-white"
-                                placeholder="username" required>
-                        </div>
-                        <div class="mb-6">
-                            <label for="signup-email" class="block text-sm font-medium text-gray-300 mb-2">Email
-                                Address</label>
-                            <input type="text" id="signup-email" name="email"
-                                class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-white"
-                                placeholder="*****@*****.com" required>
-                        </div>
-                        <div class="mb-6">
-                            <label for="signup-password"
-                                class="block text-sm font-medium text-gray-300 mb-2">Password</label>
-                            <input type="password" id="signup-password" name="password"
-                                class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-white"
-                                placeholder="••••••••" required>
-                        </div>
-                        <button type="submit"
-                            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition duration-200">
-                            Create Account
-                        </button>
-                </form>
-                <!-- <div class="mt-6 text-center text-sm text-gray-400">
-                    forgot your password? <button id="switch-to-login" class="text-blue-400 hover:underline">recover password</button>
-                </div>
+                </div> -->
             </div>
-            </div> -->
         </section>
 
         <!-- Footer -->
-        <footer class="bg-gray-800 border-t border-gray-700 py-12">
+        <footer class="site-footer py-12">
             <div class="max-w-7xl mx-auto px-6">
-                <div class="grid md:grid-cols-4 gap-8">
+                <div class="grid md:grid-cols-4 gap-10">
                     <div>
                         <div class="flex items-center space-x-2 mb-4">
-                            <i class="fas fa-chess-queen text-blue-400 text-2xl"></i>
-                            <span class="text-xl font-bold">ChessMaster</span>
+                            <svg viewBox="0 0 32 32" width="24" height="24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path d="M10 27 L9 22 Q8.5 19 11 17 L11 15 Q6 13.5 6 10.5 Q6 7.5 10.5 6.5 Q10 4.5 12.5 3.2 Q15 2 18 3 Q20.5 3.8 20.5 6.2 Q20.5 8 18.5 9 Q21 10 20.5 12.5 L24 16 Q25 17 24 18.5 L20.5 19 L19.5 27 Z"
+                                      fill="none" stroke="#C9A227" stroke-width="1.3" stroke-linejoin="round"/>
+                                <rect x="8" y="27" width="14" height="2.2" fill="none" stroke="#C9A227" stroke-width="1.3"/>
+                            </svg>
+                            <span class="font-display font-semibold text-lg">ChessMaster</span>
                         </div>
-                        <p class="text-gray-400">The ultimate platform for chess enthusiasts. Play, learn, and master
-                            the
-                            royal game.</p>
-                        <div class="flex space-x-4 mt-6">
-                            <a href="http://localhost:5000/about"
-                                class="text-gray-400 hover:text-blue-400 transition"><i
-                                    class="fab fa-twitter text-xl"></i></a>
-                            <a href="http://localhost:5000/about"
-                                class="text-gray-400 hover:text-blue-400 transition"><i
-                                    class="fab fa-facebook text-xl"></i></a>
-                            <a href="http://localhost:5000/about"
-                                class="text-gray-400 hover:text-blue-400 transition"><i
-                                    class="fab fa-instagram text-xl"></i></a>
-                            <a href="http://localhost:5000/about"
-                                class="text-gray-400 hover:text-blue-400 transition"><i
-                                    class="fab fa-youtube text-xl"></i></a>
+                        <p class="brand-blurb">A quieter place to play. Rated games, real lessons, and a
+                            board that stays out of the way.</p>
+                        <div class="flex space-x-2 mt-6">
+                            <a href="http://localhost:5000/about" class="social-mark">X</a>
+                            <a href="http://localhost:5000/about" class="social-mark">FB</a>
+                            <a href="http://localhost:5000/about" class="social-mark">IG</a>
+                            <a href="http://localhost:5000/about" class="social-mark">YT</a>
                         </div>
                     </div>
 
                     <div>
-                        <h3 class="text-lg font-semibold mb-4">Play</h3>
+                        <h3 class="footer-heading mb-4">Play</h3>
                         <ul class="space-y-2">
-                            <li><a href="http://localhost:5000/play"
-                                    class="text-gray-400 hover:text-blue-400 transition">Live Chess</a></li>
-                            <li><a href="http://localhost:5000/learn"
-                                    class="text-gray-400 hover:text-blue-400 transition">Computer</a></li>
-                            <li><a href="http://localhost:5000/friends"
-                                    class="text-gray-400 hover:text-blue-400 transition">Friends</a></li>
-                            <li><a href="http://localhost:5000/learn"
-                                    class="text-gray-400 hover:text-blue-400 transition">Tournaments</a></li>
-                            <li><a href="http://localhost:5000/learn"
-                                    class="text-gray-400 hover:text-blue-400 transition">Variants</a></li>
+                            <li><a href="http://localhost:5000/play" class="footer-link">Live Chess</a></li>
+                            <li><a href="http://localhost:5000/learn" class="footer-link">Computer</a></li>
+                            <li><a href="http://localhost:5000/friends" class="footer-link">Friends</a></li>
+                            <li><a href="http://localhost:5000/learn" class="footer-link">Tournaments</a></li>
+                            <li><a href="http://localhost:5000/learn" class="footer-link">Variants</a></li>
                         </ul>
                     </div>
 
                     <div>
-                        <h3 class="text-lg font-semibold mb-4">Learn</h3>
+                        <h3 class="footer-heading mb-4">Learn</h3>
                         <ul class="space-y-2">
-                            <li><a href="http://localhost:5000/learn"
-                                    class="text-gray-400 hover:text-blue-400 transition">Lessons</a></li>
-                            <li><a href="http://localhost:5000/learn"
-                                    class="text-gray-400 hover:text-blue-400 transition">Puzzles</a></li>
-                            <li><a href="http://localhost:5000/learn"
-                                    class="text-gray-400 hover:text-blue-400 transition">Practice</a></li>
-                            <li><a href="http://localhost:5000/learn"
-                                    class="text-gray-400 hover:text-blue-400 transition">Analysis</a></li>
-                            <li><a href="http://localhost:5000/learn"
-                                    class="text-gray-400 hover:text-blue-400 transition">Opening Explorer</a></li>
+                            <li><a href="http://localhost:5000/learn" class="footer-link">Lessons</a></li>
+                            <li><a href="http://localhost:5000/learn" class="footer-link">Puzzles</a></li>
+                            <li><a href="http://localhost:5000/learn" class="footer-link">Practice</a></li>
+                            <li><a href="http://localhost:5000/learn" class="footer-link">Analysis</a></li>
+                            <li><a href="http://localhost:5000/learn" class="footer-link">Opening Explorer</a></li>
                         </ul>
                     </div>
 
                     <div>
-                        <h3 class="text-lg font-semibold mb-4">Company</h3>
+                        <h3 class="footer-heading mb-4">Company</h3>
                         <ul class="space-y-2">
-                            <li><a href="http://localhost:5000/about"
-                                    class="text-gray-400 hover:text-blue-400 transition">About</a></li>
-                            <li><a href="http://localhost:5000/about"
-                                    class="text-gray-400 hover:text-blue-400 transition">Careers</a></li>
-                            <li><a href="http://localhost:5000/about"
-                                    class="text-gray-400 hover:text-blue-400 transition">Blog</a></li>
-                            <li><a href="http://localhost:5000/about"
-                                    class="text-gray-400 hover:text-blue-400 transition">Help</a></li>
-                            <li><a href="http://localhost:5000/about"
-                                    class="text-gray-400 hover:text-blue-400 transition">Contact</a></li>
+                            <li><a href="http://localhost:5000/about" class="footer-link">About</a></li>
+                            <li><a href="http://localhost:5000/about" class="footer-link">Careers</a></li>
+                            <li><a href="http://localhost:5000/about" class="footer-link">Blog</a></li>
+                            <li><a href="http://localhost:5000/about" class="footer-link">Help</a></li>
+                            <li><a href="http://localhost:5000/about" class="footer-link">Contact</a></li>
                         </ul>
                     </div>
                 </div>
 
-                <div class="border-t border-gray-700 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-                    <p class="text-gray-500 text-sm mb-4 md:mb-0">© 2023 ChessMaster. All rights reserved.</p>
+                <div class="mt-12 pt-8 flex flex-col md:flex-row justify-between items-center" style="border-top: 1px solid rgba(242,232,208,0.15);">
+                    <p class="text-sm mb-4 md:mb-0" style="color: rgba(242,232,208,0.5);">© 2026 ChessMaster. All rights reserved.</p>
                     <div class="flex space-x-6">
-                        <a href="http://localhost:5000/about"
-                            class="text-gray-500 hover:text-blue-400 text-sm transition">Privacy Policy</a>
-                        <a href="http://localhost:5000/about"
-                            class="text-gray-500 hover:text-blue-400 text-sm transition">Terms of Service</a>
-                        <a href="http://localhost:5000/about"
-                            class="text-gray-500 hover:text-blue-400 text-sm transition">Cookies</a>
+                        <a href="http://localhost:5000/about" class="text-sm footer-link">Privacy Policy</a>
+                        <a href="http://localhost:5000/about" class="text-sm footer-link">Terms of Service</a>
+                        <a href="http://localhost:5000/about" class="text-sm footer-link">Cookies</a>
                     </div>
                 </div>
             </div>
@@ -275,19 +500,19 @@
                 const switchToLogin = document.getElementById('switch-to-login');
 
                 function showLogin() {
-                    loginTab.classList.add('text-blue-400', 'border-blue-400');
-                    loginTab.classList.remove('text-gray-400');
-                    signupTab.classList.add('text-gray-400');
-                    signupTab.classList.remove('text-blue-400', 'border-blue-400');
+                    loginTab.classList.add('tab-color-active', 'tab-border-active');
+                    loginTab.classList.remove('tab-color-inactive');
+                    signupTab.classList.add('tab-color-inactive');
+                    signupTab.classList.remove('tab-color-active', 'tab-border-active');
                     loginForm.classList.remove('hidden');
                     signupForm.classList.add('hidden');
                 }
 
                 function showSignup() {
-                    signupTab.classList.add('text-blue-400', 'border-blue-400');
-                    signupTab.classList.remove('text-gray-400');
-                    loginTab.classList.add('text-gray-400');
-                    loginTab.classList.remove('text-blue-400', 'border-blue-400');
+                    signupTab.classList.add('tab-color-active', 'tab-border-active');
+                    signupTab.classList.remove('tab-color-inactive');
+                    loginTab.classList.add('tab-color-inactive');
+                    loginTab.classList.remove('tab-color-active', 'tab-border-active');
                     signupForm.classList.remove('hidden');
                     loginForm.classList.add('hidden');
                 }
