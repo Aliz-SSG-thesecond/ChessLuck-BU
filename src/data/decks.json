@@ -1,7 +1,5 @@
 [{
-  "_id": {
-    "$oid": "68e2a9829299158f435411e7"
-  },
+  "_id":"68e2a9829299158f435411e7" ,
   "name": "Classic",
   "pieces": [
     "R",
@@ -18,9 +16,7 @@
   "image": "/images/classic.png"
 },
 {
-  "_id": {
-    "$oid": "68e2a9829299158f435411e8"
-  },
+  "_id":"68e2a9829299158f435411e8",
   "name": "Double Queen",
   "pieces": [
     "R",
@@ -37,9 +33,7 @@
   "image": "/images/doublequeen.png"
 },
 {
-  "_id": {
-    "$oid": "68e2a9829299158f435411e9"
-  },
+  "_id": "68e2a9829299158f435411e9",
   "name": "Fortress",
   "pieces": [
     "R",
@@ -56,9 +50,7 @@
   "image": "/images/fortress.png"
 },
 {
-  "_id": {
-    "$oid": "68e2a9829299158f435411ea"
-  },
+  "_id":"68e2a9829299158f435411ea",
   "name": "Knights Army",
   "pieces": [
     "N",
@@ -75,9 +67,7 @@
   "image": "/images/knights.png"
 },
 {
-  "_id": {
-    "$oid": "68e2a9829299158f435411eb"
-  },
+  "_id":"68e2a9829299158f435411eb",
   "name": "Bishop’s Blessing",
   "pieces": [
     "B",
@@ -94,9 +84,7 @@
   "image": "/images/bishops.png"
 },
 {
-  "_id": {
-    "$oid": "68e2a9829299158f435411ec"
-  },
+  "_id": "68e2a9829299158f435411ec",
   "name": "Royal Wall",
   "pieces": [
     "Q",
@@ -113,9 +101,7 @@
   "image": "/images/wall.png"
 },
 {
-  "_id": {
-    "$oid": "68e2a9829299158f435411ed"
-  },
+  "_id":"68e2a9829299158f435411ed",
   "name": "Symmetry",
   "pieces": [
     "B",
@@ -132,9 +118,7 @@
   "image": "/images/symmetry.png"
 },
 {
-  "_id": {
-    "$oid": "68e2a9829299158f435411ee"
-  },
+  "_id":"68e2a9829299158f435411ee",
   "name": "Chaos",
   "pieces": [
     "N",
@@ -151,9 +135,7 @@
   "image": "/images/chaos.png"
 },
 {
-  "_id": {
-    "$oid": "68e2a9829299158f435411ef"
-  },
+  "_id":"68e2a9829299158f435411ef",
   "name": "Aggressor",
   "pieces": [
     "Q",
@@ -170,9 +152,7 @@
   "image": "/images/aggressor.png"
 },
 {
-  "_id": {
-    "$oid": "68e2a9829299158f435411f0"
-  },
+  "_id":"68e2a9829299158f435411f0",
   "name": "Hybrid",
   "pieces": [
     "R",

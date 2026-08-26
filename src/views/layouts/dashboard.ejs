@@ -179,7 +179,7 @@
         </nav>
 
         <!-- Main Content -->
-        <main class="flex-1 p-6 overflow-y-auto max-w-7xl mx-auto w-full">
+        <main class="flex-1 p-6 max-w-7xl mx-auto w-full min-w-0">
             <div class="flex justify-between items-center mb-6">
               <h2 class="welcome-title">Welcome back, <em><%= user.username %></em></h2>
               <div class="flex space-x-3">
@@ -220,11 +220,11 @@
             </div>
 
             <!-- Deck Carousel -->
-            <div class="deck-carousel w-full h-[450px] flex items-center justify-start gap-0">
-              <span class="deck-intro-card w-[280px] h-[400px] flex-shrink-0 rounded-md flex items-center justify-center text-center p-6">
+            <div class="deck-carousel w-full h-[450px] flex items-center justify-start gap-0 overflow-hidden">
+              <span class="deck-intro-card w-[80px] h-[400px] flex-shrink-0 rounded-md flex items-center justify-center text-center p-6">
                 This Week's Available Decks
               </span>
-              <div class="h-[400px] flex flex-nowrap justify-start">
+              <div class="h-[400px] flex flex-nowrap justify-start min-w-0 overflow-hidden">
                 <%
                   const gradients = [
                     "from-black/10 to-black/70",

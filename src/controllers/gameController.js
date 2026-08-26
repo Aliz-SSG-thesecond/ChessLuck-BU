@@ -2,7 +2,7 @@
 const User = require('../models/User');
 const Game = require('../models/Games.js');
 const waitlist = require('../models/matchmaking.js');
-const decks = require('../models/decks.js');
+const decks = require('../models/decks');
 const mongoose = require('mongoose');
 
 let io; 

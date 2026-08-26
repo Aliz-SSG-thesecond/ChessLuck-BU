@@ -1,5 +1,5 @@
 const User = require('../models/User');
-const Decks = require('../models/decks')
+const Decks = require('../models/decks.js')
 const crypto = require('crypto');
 const async = require('async');
 const { recoverypassword, passwordchanged } = require('../utils/email');
@@ -9,7 +9,7 @@ const passportLocalMongoose = require('passport-local-mongoose')
 exports.showLoginForm = (req, res) => res.render('login');
 exports.showDashboard = async (req, res) => {
     try {
-        const decks = await Decks.find().lean();
+        const decks = await Decks.find(); 
 
 
         res.render('dashboard', {
